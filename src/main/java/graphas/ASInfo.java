@@ -2,6 +2,7 @@ package graphas;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,14 +12,21 @@ import com.neovisionaries.i18n.CountryCode;
 @Table(name = "asinfo")
 class ASInfo {
 
-	private @Id @GeneratedValue Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private long number;
 	private String name;
 	private String description;
 	private CountryCode conutry;
 
+	public ASInfo() {
+		// No arg default constructor for Hibernate serialization
+	}
+	
+	//TODO: Generate equals and hashcode
+
 	public ASInfo(long number, String name, String description, CountryCode conutry) {
-		super();
 		this.number = number;
 		this.name = name;
 		this.description = description;
