@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import com.neovisionaries.i18n.CountryCode;
 
 import graphas.exception.ASNotFoundException;
+import graphas.jobs.ASPropertiesPopulationJob;
 
 @Service
 public class GraphAsServiceImpl implements GraphAsService {
 
 	@Autowired
-	private ASInfoRepository repository;
+	private GraphAsRepository repository;
 
 	@Override
 	public List<ASInfo> getAll() {
@@ -38,6 +39,20 @@ public class GraphAsServiceImpl implements GraphAsService {
 	@Override
 	public List<ASInfo> getByCountry(String country) {
 		return repository.getByCountry(CountryCode.getByAlpha2Code(country));
+	}
+
+	@Override
+	public List<ASInfo> saveAll(List<ASInfo> asInfo) {
+		return repository.saveAll(asInfo);
+	}
+
+	@Override
+	public List<ASproperties> getAllProperties() {
+		List<ASInfo> asInfos = getByCountry("RS");
+		for (ASInfo asInfo : asInfos) {
+			System.out.println(ASPropertiesPopulationJob.getASProperties(asInfo.getNumber()));
+		}
+		return null;
 	}
 
 }

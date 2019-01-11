@@ -10,14 +10,12 @@ import com.neovisionaries.i18n.CountryCode;
 
 @Entity
 @Table(name = "asinfo")
-class ASInfo {
+public class ASInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private long number;
-	private String name;
-	private String description;
 	private CountryCode country;
 
 	public ASInfo() {
@@ -26,10 +24,8 @@ class ASInfo {
 
 	// TODO: Generate equals and hashcode
 
-	public ASInfo(long number, String name, String description, CountryCode conutry) {
+	public ASInfo(long number, CountryCode conutry) {
 		this.number = number;
-		this.name = name;
-		this.description = description;
 		this.country = conutry;
 	}
 
@@ -41,16 +37,13 @@ class ASInfo {
 		return number;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
 	public CountryCode getCountry() {
 		return country;
+	}
+
+	@Override
+	public String toString() {
+		return "ASInfo [id=" + id + ", number=" + number + ", country=" + country + "]";
 	}
 
 }

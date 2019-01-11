@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class ASInfoController {
+class GraphAsController {
 
 	@Autowired
 	private GraphAsService graphAsService;
@@ -17,10 +17,10 @@ class ASInfoController {
 	List<ASInfo> all() {
 		return graphAsService.getAll();
 	}
-
-	@GetMapping("/asinfos/{id}")
-	ASInfo getOne(@PathVariable Long id) {
-		return graphAsService.getById(id);
+	
+	@GetMapping("/asproperties")
+	List<ASproperties> allProperties() {
+		return graphAsService.getAllProperties();
 	}
 
 	@GetMapping("/asnumber/{id}")
