@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS  asinfo (
 	number INT NOT NULL,
 	name VARCHAR(255),
 	description VARCHAR(max),
-	conutry VARCHAR(3)
+	country VARCHAR(3)
 );

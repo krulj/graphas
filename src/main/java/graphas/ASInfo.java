@@ -18,19 +18,19 @@ class ASInfo {
 	private long number;
 	private String name;
 	private String description;
-	private CountryCode conutry;
+	private CountryCode country;
 
 	public ASInfo() {
 		// No arg default constructor for Hibernate serialization
 	}
-	
-	//TODO: Generate equals and hashcode
+
+	// TODO: Generate equals and hashcode
 
 	public ASInfo(long number, String name, String description, CountryCode conutry) {
 		this.number = number;
 		this.name = name;
 		this.description = description;
-		this.conutry = conutry;
+		this.country = conutry;
 	}
 
 	public Long getId() {
@@ -49,8 +49,8 @@ class ASInfo {
 		return description;
 	}
 
-	public CountryCode getConutry() {
-		return conutry;
+	public CountryCode getCountry() {
+		return country;
 	}
 
 }

@@ -10,6 +10,8 @@ public interface GraphAsService {
 
 	ASInfo getByASNumber(Long asNumber);
 
+	List<ASInfo> getByCountry(String country);
+
 	ASInfo save(ASInfo asInfo);
 
 }

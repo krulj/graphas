@@ -27,5 +27,10 @@ class ASInfoController {
 	ASInfo getbyNumber(@PathVariable Long id) {
 		return graphAsService.getByASNumber(id);
 	}
+	
+	@GetMapping("/country/{country}")
+	List<ASInfo> getbyCountry(@PathVariable String country) {
+		return graphAsService.getByCountry(country);
+	}
 
 }

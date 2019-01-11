@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.neovisionaries.i18n.CountryCode;
+
 import graphas.exception.ASNotFoundException;
 
 @Service
@@ -31,6 +33,11 @@ public class GraphAsServiceImpl implements GraphAsService {
 	@Override
 	public ASInfo save(ASInfo asInfo) {
 		return repository.save(asInfo);
+	}
+
+	@Override
+	public List<ASInfo> getByCountry(String country) {
+		return repository.getByCountry(CountryCode.getByAlpha2Code(country));
 	}
 
 }
