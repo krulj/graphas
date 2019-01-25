@@ -15,7 +15,9 @@ public interface GraphAsService {
 	ASInfo save(ASInfo asInfo);
 
 	List<ASInfo> saveAll(List<ASInfo> asInfo);
-	
-	List<ASproperties> getAllProperties();
+
+	List<AsProperties> getAllProperties();
+
+	AsProperties getByName(String name);
 
 }

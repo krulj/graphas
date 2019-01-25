@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS  asinfo (
 );
 
 CREATE TABLE IF NOT EXISTS  asproperties (
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	asinfo INT,
 	name VARCHAR(255),
 	description VARCHAR(max),

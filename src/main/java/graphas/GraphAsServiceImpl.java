@@ -14,45 +14,55 @@ import graphas.jobs.ASPropertiesPopulationJob;
 public class GraphAsServiceImpl implements GraphAsService {
 
 	@Autowired
-	private GraphAsRepository repository;
+	private AsInfoRepository asInfoRepository;
+
+	@Autowired
+	private AsPropertiesRepository asPropertiesRepository;
 
 	@Override
 	public List<ASInfo> getAll() {
-		return repository.findAll();
+		return asInfoRepository.findAll();
 	}
 
 	@Override
 	public ASInfo getById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ASNotFoundException(id));
+		return asInfoRepository.findById(id).orElseThrow(() -> new ASNotFoundException(id));
 	}
 
 	@Override
 	public ASInfo getByASNumber(Long asNumber) {
-		return repository.getByAsNumber(asNumber).orElseThrow(() -> new ASNotFoundException(asNumber));
+		ASInfo asInfo = asInfoRepository.getByAsNumber(asNumber).orElseThrow(() -> new ASNotFoundException(asNumber));
+		if (asInfo.getAsProperties() == null) {
+			AsProperties properties = ASPropertiesPopulationJob.getASProperties(asNumber);
+			asInfo.setAsProperties(properties);
+			asPropertiesRepository.save(properties);
+		}
+		return asInfo;
 	}
 
 	@Override
 	public ASInfo save(ASInfo asInfo) {
-		return repository.save(asInfo);
+		return asInfoRepository.save(asInfo);
 	}
 
 	@Override
 	public List<ASInfo> getByCountry(String country) {
-		return repository.getByCountry(CountryCode.getByAlpha2Code(country));
+		return asInfoRepository.getByCountry(CountryCode.getByAlpha2Code(country));
 	}
 
 	@Override
 	public List<ASInfo> saveAll(List<ASInfo> asInfo) {
-		return repository.saveAll(asInfo);
+		return asInfoRepository.saveAll(asInfo);
 	}
 
 	@Override
-	public List<ASproperties> getAllProperties() {
-		List<ASInfo> asInfos = getByCountry("RS");
-		for (ASInfo asInfo : asInfos) {
-			System.out.println(ASPropertiesPopulationJob.getASProperties(asInfo.getNumber()));
-		}
-		return null;
+	public List<AsProperties> getAllProperties() {
+		return asPropertiesRepository.findAll();
+	}
+
+	@Override
+	public AsProperties getByName(String name) {
+		return asPropertiesRepository.getByName(name).orElseThrow(() -> new ASNotFoundException(name));
 	}
 
 }

@@ -17,11 +17,6 @@ class GraphAsController {
 	List<ASInfo> all() {
 		return graphAsService.getAll();
 	}
-	
-	@GetMapping("/asproperties")
-	List<ASproperties> allProperties() {
-		return graphAsService.getAllProperties();
-	}
 
 	@GetMapping("/asnumber/{id}")
 	ASInfo getbyNumber(@PathVariable Long id) {

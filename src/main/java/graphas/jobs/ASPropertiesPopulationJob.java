@@ -1,45 +1,34 @@
 package graphas.jobs;
 
-import java.util.List;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import graphas.ASInfo;
-import graphas.ASproperties;
-import graphas.GraphAsService;
+import graphas.AsProperties;
 
 public class ASPropertiesPopulationJob {
-	
-	@Autowired
-	private GraphAsService graphAsService;
 
 	private static final String REST_API_RIPE = "https://stat.ripe.net/data/as-overview/data.json?resource=AS";
 
-	public static ASproperties getASProperties(Long asNumber) {
+	public static AsProperties getASProperties(Long asNumber) {
 
-		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target(REST_API_RIPE + asNumber);
-		JSONObject response = target.request(MediaType.APPLICATION_JSON).get(JSONObject.class);
+		RestTemplate restTemplate = new RestTemplate();
+		String url = REST_API_RIPE + asNumber;
 
-		JSONObject data = response.getJSONObject("data");
-		String name = data.getString("holder");
-		String desc = data.getString("announced");
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-		client.close();
-		return new ASproperties(name, desc);
+		JSONObject obj = new JSONObject(response.getBody());
 
+		JSONObject jsonData = obj.getJSONObject("data");
+		String name = jsonData.getString("holder");
+
+		JSONObject jsonBlock = jsonData.getJSONObject("block");
+		String resource = jsonBlock.getString("resource");
+		String resourceName = jsonBlock.getString("name");
+		String resourceDesc = jsonBlock.getString("desc");
+		String description = "Resource: " + resource + "; Registry: " + resourceName + "; " + resourceDesc;
+
+		return new AsProperties(name, description);
 	}
-	
-	public void populateDatabase() {
-		List<ASInfo> asInfos = graphAsService.getByCountry("RS");
-		for (ASInfo asInfo : asInfos) {
-			System.out.println(getASProperties(asInfo.getNumber()));
-		}
-	}
+
 }

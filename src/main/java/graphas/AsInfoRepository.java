@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.neovisionaries.i18n.CountryCode;
 
-interface GraphAsRepository extends JpaRepository<ASInfo, Long> {
+interface AsInfoRepository extends JpaRepository<ASInfo, Long> {
 
 	@Query("SELECT a FROM ASInfo a WHERE a.number = :asn")
 	Optional<ASInfo> getByAsNumber(@Param("asn") Long asn);

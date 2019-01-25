@@ -45,8 +45,6 @@ public class RipeStatsParserUtil {
 			if (matcher.find()) {
 				String country = matcher.group(1);
 				String numberString = matcher.group(2);
-				System.out.println(country);
-				System.out.println(numberString);
 
 				long number = Long.parseLong(numberString);
 				return new ASInfo(number, CountryCode.getByAlpha2Code(country));
