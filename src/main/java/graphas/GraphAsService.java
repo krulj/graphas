@@ -2,6 +2,9 @@ package graphas;
 
 import java.util.List;
 
+import graphas.model.ASInfo;
+import graphas.model.AsProperties;
+
 public interface GraphAsService {
 
 	List<ASInfo> getAll();

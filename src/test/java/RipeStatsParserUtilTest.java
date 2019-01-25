@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import graphas.ASInfo;
+import graphas.model.ASInfo;
 import graphas.util.RipeStatsParserUtil;
 
 public class RipeStatsParserUtilTest {

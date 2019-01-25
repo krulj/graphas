@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import graphas.ASInfo;
+import graphas.model.ASInfo;
 
 public class RipeStatsParserUtil {
 

@@ -1,4 +1,4 @@
-package graphas;
+package graphas.model;
 
 import java.io.Serializable;
 
@@ -26,7 +26,7 @@ public class ASInfo implements Serializable {
 	private long number;
 	private CountryCode country;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "asinfo")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "asinfo")
 	AsProperties asProperties;
 
 	public ASInfo() {

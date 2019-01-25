@@ -9,6 +9,8 @@ import com.neovisionaries.i18n.CountryCode;
 
 import graphas.exception.ASNotFoundException;
 import graphas.jobs.ASPropertiesPopulationJob;
+import graphas.model.ASInfo;
+import graphas.model.AsProperties;
 
 @Service
 public class GraphAsServiceImpl implements GraphAsService {
@@ -35,7 +37,8 @@ public class GraphAsServiceImpl implements GraphAsService {
 		if (asInfo.getAsProperties() == null) {
 			AsProperties properties = ASPropertiesPopulationJob.getASProperties(asNumber);
 			asInfo.setAsProperties(properties);
-			asPropertiesRepository.save(properties);
+			properties.setAsinfo(asInfo);
+			asInfoRepository.save(asInfo);
 		}
 		return asInfo;
 	}

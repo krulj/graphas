@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import graphas.AsProperties;
+import graphas.model.AsProperties;
 
 public class ASPropertiesPopulationJob {
 

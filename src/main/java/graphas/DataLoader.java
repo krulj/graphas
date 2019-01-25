@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import graphas.model.ASInfo;
 import graphas.util.RipeStatsParserUtil;
 
 @Component
