@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("ClientController")
-@RequestMapping(value = "/")
+
 public class GraphAsClientControler {
 
-	@ResponseBody
+	@RequestMapping(value = "/")
 	public String index() {
 		return "index.html";
 	}

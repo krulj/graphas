@@ -14,9 +14,9 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<frontendSrcDir>${project.basedir}/src/main/app/myapp</frontendSrcDir>
+		<frontendSrcDir>${project.basedir}/src/main/js</frontendSrcDir>
 		<node.version>v10.15.1</node.version>
-		<yarn.version>v1.13.0</yarn.version>
+		<npm.version>6.4.1</npm.version>
 		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
 	</properties>
 
@@ -100,7 +100,7 @@
 
 				<configuration>
 					<nodeVersion>${node.version}</nodeVersion>
-					<yarnVersion>${yarn.version}</yarnVersion>
+					<yarnVersion>${npm.version}</yarnVersion>
 					<workingDirectory>${frontendSrcDir}</workingDirectory>
 					<installDirectory>${project.build.directory}</installDirectory>
 				</configuration>
@@ -109,54 +109,28 @@
 					<execution>
 						<id>install-frontend-tools</id>
 						<goals>
-							<goal>install-node-and-yarn</goal>
+							<goal>install-node-and-npm</goal>
 						</goals>
 					</execution>
 
 					<execution>
-						<id>yarn-install</id>
+						<id>npm install</id>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>webpack build</id>
+						<goals>
+							<goal>webpack</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-					<execution>
-						<id>build-frontend</id>
-						<goals>
-							<goal>yarn</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<arguments>build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>position-react-build</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${frontendSrcDir}/build</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
