@@ -1,6 +1,7 @@
 package graphas;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,12 @@ public class GraphAsServiceImpl implements GraphAsService {
 	@Override
 	public AsProperties getByName(String name) {
 		return asPropertiesRepository.getByName(name).orElseThrow(() -> new ASNotFoundException(name));
+	}
+
+	@Override
+	public List<String> getAllCountries() {
+		List<CountryCode> countries = asInfoRepository.getAllCountries();
+		return countries.stream().map(arg -> arg.getAlpha2() + " - " + arg.getName()).sorted().collect(Collectors.toList());
 	}
 
 }

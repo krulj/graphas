@@ -20,4 +20,7 @@ interface AsInfoRepository extends JpaRepository<ASInfo, Long> {
 
 	@Query("SELECT a FROM ASInfo a WHERE a.country = :c")
 	List<ASInfo> getByCountry(@Param("c") CountryCode countryCode);
+	
+	@Query("SELECT DISTINCT country FROM ASInfo")
+	List<CountryCode> getAllCountries();
 }

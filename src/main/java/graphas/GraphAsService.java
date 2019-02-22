@@ -2,6 +2,8 @@ package graphas;
 
 import java.util.List;
 
+import com.neovisionaries.i18n.CountryCode;
+
 import graphas.model.ASInfo;
 import graphas.model.AsProperties;
 
@@ -22,5 +24,7 @@ public interface GraphAsService {
 	List<AsProperties> getAllProperties();
 
 	AsProperties getByName(String name);
+	
+	List<String> getAllCountries();
 
 }

@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import AppNavbar from './AppNavbar';
-import AsinfoList from './AsinfoList';
+import CountriesSelection from './CountriesSelection';
 import { Container } from 'reactstrap';
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-        <AppNavbar/>
-        <Container fluid>
-         <AsinfoList/>
-        </Container>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <AppNavbar />
+                <CountriesSelection />
+            </div>
+        );
+    }
 }
 
 export default App;

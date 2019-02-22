@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neovisionaries.i18n.CountryCode;
+
 import graphas.GraphAsService;
 import graphas.model.ASInfo;
 
@@ -26,6 +28,11 @@ class GraphAsRestController {
 	@GetMapping("/asnumber/{id}")
 	ASInfo getbyNumber(@PathVariable Long id) {
 		return graphAsService.getByASNumber(id);
+	}
+	
+	@GetMapping("/countries")
+	List<String> allCountries() {
+		return graphAsService.getAllCountries();
 	}
 	
 	@GetMapping("/country/{country}")

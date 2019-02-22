@@ -23,6 +23,30 @@
   color: #61dafb;
 }
 
+.App-left-div {
+    margin-top: 1em;
+    padding-left: 1em;
+    width : 40%;
+    display: inline-block;
+}
+
+.App-button {
+    margin: 1px;
+    width: 260px;
+    text-align: left;
+}
+
+.App-right-div {
+    margin-top: 1em;
+    vertical-align: top;
+    width : 60%;
+    display: inline-block;
+}
+
+.App-input {
+     width: 260px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
