@@ -26,21 +26,24 @@
 .App-left-div {
     margin-top: 1em;
     padding-left: 1em;
-    width : 40%;
+    width : 20%;
     display: inline-block;
 }
 
 .App-button {
     margin: 1px;
-    width: 260px;
+    width: 100%;
     text-align: left;
+    overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .App-right-div {
     margin-top: 1em;
     vertical-align: top;
-    width : 60%;
+    width : 80%;
     display: inline-block;
+    text-align: center;
 }
 
 .App-input {

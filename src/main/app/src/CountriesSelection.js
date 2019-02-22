@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Table, Input } from 'reactstrap';
 import './App.css';
+import SimpleMap from './SimpleMap';
 
 class CountriesSelection extends Component {
 
@@ -35,6 +36,7 @@ class CountriesSelection extends Component {
                 </div>
                 <div className="App-right-div">
                     <h2>Select country for AS lookup</h2>
+                    <SimpleMap />
                 </div>
             </div>
         );
@@ -101,7 +103,7 @@ class List extends React.Component {
                 {this.state.filtered.map(item => (
                     <Button key={item} className="App-button" >
                         {item}
-                            </Button>
+                    </Button>
                 ))}
 
             </div>
