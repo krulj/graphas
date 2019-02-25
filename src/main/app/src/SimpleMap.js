@@ -1,12 +1,12 @@
 
 import React, { Component } from "react"
+import { Button } from 'reactstrap';
+import ReactTooltip from 'react-tooltip';
 import {
     ComposableMap,
     ZoomableGroup,
     Geographies,
     Geography,
-    Markers,
-    Marker,
 } from "react-simple-maps"
 
 const wrapperStyles = {
@@ -41,32 +41,23 @@ class SimpleMap extends Component {
             zoom: 2,
         })
     }
+
     handleReset() {
         this.setState({
             center: [0, 20],
             zoom: 1,
         })
     }
+
+    componentDidMount() {
+        setTimeout(() => {
+            ReactTooltip.rebuild()
+        }, 100)
+    }
+
     render() {
         return (
             <div>
-                <div style={wrapperStyles}>
-                    {
-                        this.state.cities.map((city, i) => (
-                            <button
-                                key={i}
-                                className="btn px1"
-                                data-city={i}
-                                onClick={this.handleCitySelection}
-                            >
-                                {city.name}
-                            </button>
-                        ))
-                    }
-                    <button onClick={this.handleReset}>
-                        {"Reset"}
-                    </button>
-                </div>
                 <div style={wrapperStyles}>
                     <ComposableMap
                         projectionConfig={{
@@ -86,6 +77,7 @@ class SimpleMap extends Component {
                                         key={i}
                                         geography={geography}
                                         projection={projection}
+                                        data-tip={geography.properties.name}
                                         style={{
                                             default: {
                                                 fill: "#ECEFF1",
@@ -109,7 +101,8 @@ class SimpleMap extends Component {
                                     />
                                 ))}
                             </Geographies>
-                            <Markers>
+
+                            {/* <Markers>
                                 {
                                     this.state.cities.map((city, i) => (
                                         <Marker key={i} marker={city}>
@@ -123,9 +116,27 @@ class SimpleMap extends Component {
                                         </Marker>
                                     ))
                                 }
-                            </Markers>
+                            </Markers> */}
                         </ZoomableGroup>
                     </ComposableMap>
+                    <ReactTooltip />
+                </div>
+                <div style={wrapperStyles}>
+                    {
+                        this.state.cities.map((city, i) => (
+                            <Button className="App-map-button"
+                                key={i}
+                                data-city={i}
+                                onClick={this.handleCitySelection}
+                            >
+                                {city.name}
+                            </Button>
+                        ))
+                    }
+                    <Button className="App-map-button"
+                        onClick={this.handleReset}>
+                        {"Reset"}
+                    </Button>
                 </div>
             </div>
         )

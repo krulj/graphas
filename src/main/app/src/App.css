@@ -38,6 +38,10 @@
 	text-overflow: ellipsis;
 }
 
+.App-map-button {
+    margin: 1px;
+}
+
 .App-right-div {
     margin-top: 1em;
     vertical-align: top;
