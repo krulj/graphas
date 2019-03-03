@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import AppNavbar from './AppNavbar';
-import CountriesSelection from './CountriesSelection';
-import { Container } from 'reactstrap';
+import Home from './Home';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Asinfo from './Asinfo';
 
 class App extends Component {
     render() {
         return (
-            <div>
-                <AppNavbar />
-                <CountriesSelection />
-            </div>
+            <Router>
+                <Switch>
+                    <Route path='/' exact={true} component={Home} />
+                    <Route path='/asinfo' exact={true} component={Asinfo} />
+                </Switch>
+            </Router>
         );
     }
 }

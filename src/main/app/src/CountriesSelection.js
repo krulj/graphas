@@ -70,6 +70,7 @@ class List extends React.Component {
         let currentList = [];
         // Variable to hold the filtered list before putting into state
         let newList = [];
+        let counter = 0;
 
         // If the search bar isn't empty
         if (e.target.value !== "") {
@@ -86,7 +87,12 @@ class List extends React.Component {
                 // check to see if the current list item includes the search term
                 // If it does, it will be added to newList. Using lowercase eliminates
                 // issues with capitalization in search terms and search content
-                return lc.includes(filter);
+                var include = lc.includes(filter);
+                if (include && counter < 5) {
+                    counter++;
+                    return include;
+                }
+                return false;
             });
         }
         // Set the filtered state based on what our rules added to newList
