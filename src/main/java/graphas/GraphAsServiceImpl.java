@@ -51,7 +51,7 @@ public class GraphAsServiceImpl implements GraphAsService {
 
 	@Override
 	public List<ASInfo> getByCountry(String country) {
-		return asInfoRepository.getByCountry(CountryCode.getByAlpha2Code(country));
+		return asInfoRepository.getByCountry(CountryCode.getByAlpha3Code(country));
 	}
 
 	@Override

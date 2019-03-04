@@ -2,12 +2,16 @@
 import React, { Component } from "react"
 import { Button } from 'reactstrap';
 import ReactTooltip from 'react-tooltip';
+import { Redirect, Link, withRouter } from "react-router-dom";
+
 import {
     ComposableMap,
     ZoomableGroup,
     Geographies,
     Geography,
 } from "react-simple-maps"
+
+
 
 const wrapperStyles = {
     width: "100%",
@@ -32,7 +36,17 @@ class SimpleMap extends Component {
         }
         this.handleCitySelection = this.handleCitySelection.bind(this)
         this.handleReset = this.handleReset.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
+
+    handleClick(geo) {
+        //return  <Link to="/graph">Old Match, to be redirected</Link>
+        //console.log("Geography data: ", geo)
+        //console.log(this.props)
+        this.props.history.push('/graph/' + geo.id);
+    }
+
+
     handleCitySelection(evt) {
         const cityId = evt.target.getAttribute("data-city")
         const city = this.state.cities[cityId]
@@ -78,6 +92,7 @@ class SimpleMap extends Component {
                                         geography={geography}
                                         projection={projection}
                                         data-tip={geography.properties.name}
+                                        onClick={this.handleClick}
                                         style={{
                                             default: {
                                                 fill: "#ECEFF1",
@@ -143,4 +158,4 @@ class SimpleMap extends Component {
     }
 }
 
-export default SimpleMap
+export default withRouter(SimpleMap)
