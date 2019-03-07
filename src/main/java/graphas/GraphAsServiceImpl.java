@@ -1,5 +1,6 @@
 package graphas;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import com.neovisionaries.i18n.CountryCode;
 import graphas.exception.ASNotFoundException;
 import graphas.jobs.ASPropertiesPopulationJob;
 import graphas.model.ASInfo;
+import graphas.model.AsConnection;
 import graphas.model.AsProperties;
 
 @Service
@@ -73,6 +75,17 @@ public class GraphAsServiceImpl implements GraphAsService {
 	public List<String> getAllCountries() {
 		List<CountryCode> countries = asInfoRepository.getAllCountries();
 		return countries.stream().map(arg -> arg.getAlpha2() + " - " + arg.getName()).sorted().collect(Collectors.toList());
+	}
+
+	@Override
+	public List<AsConnection> getConnectionsbyCountry(String country) {
+		List<ASInfo> asInfos = getByCountry(country);
+		List<AsConnection> asConnections = new ArrayList<>();
+		for (ASInfo asInfo : asInfos) {
+			List<AsConnection> connections = ASPropertiesPopulationJob.getASNeighbours(asInfo.getNumber());
+			asConnections.addAll(connections);
+		}
+		return asConnections;
 	}
 
 }
