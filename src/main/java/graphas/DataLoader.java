@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import graphas.model.ASInfo;
+import graphas.service.GraphAsService;
 import graphas.util.RipeStatsParserUtil;
 
 @Component

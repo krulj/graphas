@@ -1,15 +1,10 @@
 
-import React, { Component } from "react"
-import { Button } from 'reactstrap';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import ReactTooltip from 'react-tooltip';
-import { Redirect, Link, withRouter } from "react-router-dom";
+import { Button } from 'reactstrap';
 
-import {
-    ComposableMap,
-    ZoomableGroup,
-    Geographies,
-    Geography,
-} from "react-simple-maps"
 
 
 

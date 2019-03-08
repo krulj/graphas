@@ -1,4 +1,4 @@
-package graphas;
+package graphas.service;
 
 import java.util.List;
 
@@ -25,6 +25,8 @@ public interface GraphAsService {
 	AsProperties getByName(String name);
 	
 	List<String> getAllCountries();
+	
+	List<AsConnection> getConnections(long asNumber);
 
 	List<AsConnection> getConnectionsbyCountry(String country);
 

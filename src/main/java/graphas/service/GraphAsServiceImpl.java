@@ -1,4 +1,4 @@
-package graphas;
+package graphas.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.neovisionaries.i18n.CountryCode;
 
+import graphas.AsConnectionRepository;
+import graphas.AsInfoRepository;
+import graphas.AsPropertiesRepository;
 import graphas.exception.ASNotFoundException;
 import graphas.jobs.ASPropertiesPopulationJob;
 import graphas.model.ASInfo;
@@ -23,6 +27,9 @@ public class GraphAsServiceImpl implements GraphAsService {
 
 	@Autowired
 	private AsPropertiesRepository asPropertiesRepository;
+
+	@Autowired
+	private AsConnectionRepository asConnectionRepository;
 
 	@Override
 	public List<ASInfo> getAll() {
@@ -74,7 +81,8 @@ public class GraphAsServiceImpl implements GraphAsService {
 	@Override
 	public List<String> getAllCountries() {
 		List<CountryCode> countries = asInfoRepository.getAllCountries();
-		return countries.stream().map(arg -> arg.getAlpha2() + " - " + arg.getName()).sorted().collect(Collectors.toList());
+		return countries.stream().map(arg -> arg.getAlpha2() + " - " + arg.getName()).sorted()
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -86,6 +94,20 @@ public class GraphAsServiceImpl implements GraphAsService {
 			asConnections.addAll(connections);
 		}
 		return asConnections;
+	}
+
+	@Override
+	@Transactional
+	public List<AsConnection> getConnections(long asNumber) {
+		List<AsConnection> asConnections = asConnectionRepository.getByAsNumber(asNumber);
+		if (asConnections == null || asConnections.isEmpty()) {
+			List<AsConnection> connections = ASPropertiesPopulationJob.getASNeighbours(asNumber);
+			asConnectionRepository.saveAll(asConnections);
+			asConnectionRepository.flush();
+			return connections;
+
+		}
+		return new ArrayList<>();
 	}
 
 }

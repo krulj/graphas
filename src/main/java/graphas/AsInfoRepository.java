@@ -11,7 +11,7 @@ import com.neovisionaries.i18n.CountryCode;
 
 import graphas.model.ASInfo;
 
-interface AsInfoRepository extends JpaRepository<ASInfo, Long> {
+public interface AsInfoRepository extends JpaRepository<ASInfo, Long> {
 
 	@Query("SELECT a FROM ASInfo a WHERE a.number = :asn")
 	Optional<ASInfo> getByAsNumber(@Param("asn") Long asn);

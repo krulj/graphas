@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, Table, Input } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 import './App.css';
 import SimpleMap from './SimpleMap';
 
@@ -23,9 +23,7 @@ class CountriesSelection extends Component {
     }
 
     render() {
-        const { countries, isLoading } = this.state;
-
-        if (isLoading) {
+        if (this.state.isLoading) {
             return <p>Loading...</p>
         }
 

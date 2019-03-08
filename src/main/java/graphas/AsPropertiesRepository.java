@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import graphas.model.AsProperties;
 
-interface AsPropertiesRepository extends JpaRepository<AsProperties, Long> {
+public interface AsPropertiesRepository extends JpaRepository<AsProperties, Long> {
 
 	@Query("SELECT a FROM AsProperties a WHERE a.name = :name")
 	Optional<AsProperties> getByName(@Param("name") String name);

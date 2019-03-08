@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import './App.css';
 import AppNavbar from './AppNavbar';
-import { Label } from 'reactstrap';
+import AsConnection from './AsConnection';
 
 
 class Graph extends Component {
@@ -39,19 +40,20 @@ class Graph extends Component {
             <div>
                 <AppNavbar />
                 <div>
-                    <h1>
+                    <div className="App-left-div">
                         {this.state.asinfos.map(item => (
-                            <p>
-                                <Label key={item.number}  >
-                                    {item.number}
-                                </Label>
-                            </p>
+                            <Button key={item.number} className="App-button" >
+                                {"AS" + item.number}
+                            </Button>
                         ))}
-
-                    </h1>
+                    </div>
+                    <div className="App-right-div">
+                     <h2>TODO</h2>
+                        <AsConnection/>
+                    </div>
                 </div>
-
             </div>
+
         );
     }
 }
