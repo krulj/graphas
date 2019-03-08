@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.neovisionaries.i18n.CountryCode;
 
@@ -18,6 +17,9 @@ import graphas.jobs.ASPropertiesPopulationJob;
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
 import graphas.model.AsProperties;
+import graphas.model.Edge;
+import graphas.model.Graph;
+import graphas.model.Node;
 
 @Service
 public class GraphAsServiceImpl implements GraphAsService {
@@ -97,7 +99,6 @@ public class GraphAsServiceImpl implements GraphAsService {
 	}
 
 	@Override
-	@Transactional
 	public List<AsConnection> getConnections(long asNumber) {
 		List<AsConnection> asConnections = asConnectionRepository.getByAsNumber(asNumber);
 		if (asConnections == null || asConnections.isEmpty()) {
@@ -108,6 +109,18 @@ public class GraphAsServiceImpl implements GraphAsService {
 
 		}
 		return new ArrayList<>();
+	}
+
+	@Override
+	public Graph getGraphConnections(Long id) {
+		List<AsConnection> asConnections = getConnections(id);
+		List<Node> nodes = new ArrayList<>();
+		List<Edge> edges = new ArrayList<>();
+		for (AsConnection asConnection : asConnections) {
+			nodes.add(new Node(asConnection.getFrom(), "AS" + asConnection.getFrom()));
+			edges.add(new Edge(asConnection.getFrom(), asConnection.getTo()));
+		}
+		return new Graph(nodes, edges);
 	}
 
 }

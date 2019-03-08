@@ -34,8 +34,6 @@ const events = {
 
 class AsConnection extends Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -49,7 +47,7 @@ class AsConnection extends Component {
         return (
 
             <div>
-                <Graph graph={graph} options={options} events={events} style={{ height: "640px" }} />
+                <Graph graph={this.props.graph} options={options} events={events} style={{ height: "640px" }} />
             </div>
 
         );

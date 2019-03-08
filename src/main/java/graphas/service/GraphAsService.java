@@ -5,6 +5,7 @@ import java.util.List;
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
 import graphas.model.AsProperties;
+import graphas.model.Graph;
 
 public interface GraphAsService {
 
@@ -29,5 +30,7 @@ public interface GraphAsService {
 	List<AsConnection> getConnections(long asNumber);
 
 	List<AsConnection> getConnectionsbyCountry(String country);
+
+	Graph getGraphConnections(Long id);
 
 }

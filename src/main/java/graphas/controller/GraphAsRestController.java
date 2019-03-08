@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
+import graphas.model.Graph;
 import graphas.service.GraphAsService;
 
 @RestController
@@ -47,6 +48,11 @@ class GraphAsRestController {
 	@GetMapping("/as-connections/{id}")
 	List<AsConnection> getConnections(@PathVariable Long id) {
 		return graphAsService.getConnections(id);
+	}
+	
+	@GetMapping("/as-connections-graph/{id}")
+	Graph getGraphConnections(@PathVariable Long id) {
+		return graphAsService.getGraphConnections(id);
 	}
 
 }
