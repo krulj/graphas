@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS  asconnection (
 	asfrom INT,
 	asto INT,
 	power INT,
-	conntype VARCHAR(255),
-	FOREIGN KEY (asfrom) REFERENCES asinfo(id),
-	FOREIGN KEY (asto) REFERENCES asinfo(id)
+	conntype VARCHAR(255)
+	--,
+	--FOREIGN KEY (asfrom) REFERENCES asinfo(number),
+	--FOREIGN KEY (asto) REFERENCES asinfo(number)
 );

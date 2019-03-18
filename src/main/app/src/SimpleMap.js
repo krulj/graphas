@@ -14,6 +14,10 @@ const wrapperStyles = {
     margin: "0 auto",
 }
 
+const topDiv = {
+    display: "flex"
+}
+
 class SimpleMap extends Component {
     constructor() {
         super()
@@ -66,7 +70,24 @@ class SimpleMap extends Component {
 
     render() {
         return (
-            <div>
+            <div style={topDiv}>
+                <div className="App-map-button">
+                    {
+                        this.state.cities.map((city, i) => (
+                            <Button className="App-button"
+                                key={i}
+                                data-city={i}
+                                onClick={this.handleCitySelection}
+                            >
+                                {city.name}
+                            </Button>
+                        ))
+                    }
+                    <Button className="App-button"
+                        onClick={this.handleReset}>
+                        {"Reset"}
+                    </Button>
+                </div>
                 <div style={wrapperStyles}>
                     <ComposableMap
                         projectionConfig={{
@@ -131,23 +152,7 @@ class SimpleMap extends Component {
                     </ComposableMap>
                     <ReactTooltip />
                 </div>
-                <div style={wrapperStyles}>
-                    {
-                        this.state.cities.map((city, i) => (
-                            <Button className="App-map-button"
-                                key={i}
-                                data-city={i}
-                                onClick={this.handleCitySelection}
-                            >
-                                {city.name}
-                            </Button>
-                        ))
-                    }
-                    <Button className="App-map-button"
-                        onClick={this.handleReset}>
-                        {"Reset"}
-                    </Button>
-                </div>
+
             </div>
         )
     }

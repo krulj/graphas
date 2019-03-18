@@ -43,7 +43,7 @@
     width : 20%;
     display: inline-block;
     overflow: auto;
-    height: 700px;
+    height: 550px;
 }
 
 .App-button {
@@ -51,11 +51,14 @@
     width: 95%;
     text-align: left;
     overflow: hidden;
-	text-overflow: ellipsis;
+	  text-overflow: ellipsis;
 }
 
 .App-map-button {
-    margin: 1px;
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+    width: 18%;
 }
 
 .App-right-div {
@@ -68,6 +71,13 @@
 
 .App-input {
      width: 260px;
+}
+
+.App-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes App-logo-spin {

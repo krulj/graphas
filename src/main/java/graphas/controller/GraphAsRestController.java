@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
-import graphas.model.Graph;
+import graphas.model.client.CountryStats;
+import graphas.model.client.Graph;
 import graphas.service.GraphAsService;
 
 @RestController
@@ -40,6 +41,11 @@ class GraphAsRestController {
 		return graphAsService.getByCountry(country);
 	}
 	
+	@GetMapping("/countryStats/{country}")
+	CountryStats getCountryStats(@PathVariable String country) {
+		return graphAsService.getCountryStats(country);
+	}
+	
 	@GetMapping("/country-connections/{country}")
 	List<AsConnection> getConnectionsbyCountry(@PathVariable String country) {
 		return graphAsService.getConnectionsbyCountry(country);
@@ -51,8 +57,18 @@ class GraphAsRestController {
 	}
 	
 	@GetMapping("/as-connections-graph/{id}")
-	Graph getGraphConnections(@PathVariable Long id) {
+	Graph getAsGraphConnections(@PathVariable Long id) {
 		return graphAsService.getGraphConnections(id);
+	}
+	
+	@GetMapping("/country-connections-graph/{country}")
+	Graph getCountryGraphConnections(@PathVariable String country) {
+//		List<Node> nodes = new ArrayList<Node>();
+//		List<Edge> edges = new ArrayList<Edge>();
+//		nodes.add(new Node(6700, "AS6700"));
+//		return new Graph(nodes,edges);
+		// TODO:
+		return graphAsService.getCountryGraphConnections(country);
 	}
 
 }

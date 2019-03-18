@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import Graph from "react-graph-vis";
-
+import React, { Component, createRef } from "react";
+import { Network } from 'vis';
+import { withRouter } from "react-router-dom";
+import { Redirect } from 'react-router';
+import '../node_modules/vis/dist/vis.min.css';
 
 
 const graph = {
@@ -17,8 +19,31 @@ const options = {
     layout: {
         hierarchical: false
     },
+    height: "640px",
+
+    nodes: {
+        title: 'Hover'
+    },
+    
     edges: {
-        color: "#000000"
+        color: { inherit: true },
+        width: 0.20,
+        scaling: {
+            min: 10,
+            max: 30
+        },
+        font: {
+            size: 12,
+            face: 'Tahoma'
+        },
+        smooth: {
+            type: 'continuous'
+        },
+        title: 'Hover'
+    },
+    interaction: {
+        hideEdgesOnDrag: true,
+        tooltipDelay: 200
     }
 };
 
@@ -29,30 +54,50 @@ const events = {
         console.log(nodes);
         console.log("Selected edges:");
         console.log(edges);
-    }
+    },
+
 };
+
+
 
 class AsConnection extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            //nodes: [],
-            //edges: [],
-            isLoading: true
+            redirect: false,
+            asn: 0
         };
+        this.network = {};
+        this.appRef = createRef();
+        this.redirect = this.redirect.bind(this);
+    }
+
+    redirect(params) {
+        console.log(params.nodes);
+        this.setState({ redirect: true, asn: params.nodes });
+        //this.props.history.push('/asgraph/' + params.nodes);
+    }
+
+    handleClick(e) {
+        this.saySomething("element clicked");
+    }
+
+    componentDidMount() {
+        this.network = new Network(this.appRef.current, this.props.graph, options);
+        this.network.on("doubleClick", this.redirect);
+        this.network.on("doubleClick", this.redirect);
+        this.setState({ redirect: false });
     }
 
     render() {
+        if (this.state.redirect === true) {
+            return <Redirect to={"/asgraph/" + this.state.asn} />
+        }
         return (
-
-            <div>
-                <Graph graph={this.props.graph} options={options} events={events} style={{ height: "640px" }} />
-            </div>
-
+            <div ref={this.appRef} />
         );
     }
-
 }
 
-export default AsConnection;
+export default withRouter(AsConnection)

@@ -1,37 +1,39 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
 import './App.css';
 import AppNavbar from './AppNavbar';
 import AsConnection from './AsConnection';
+import CountryStats from './CountryStats';
 
 
-class Graph extends Component {
+class GraphCountry extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            asinfos: [],
+            graph: [],
+            countryCode: '',
             isLoading: true
         };
     }
 
     componentDidMount() {
-        this.setState({ isLoading: true });
         var pathname = this.props.location.pathname;
-        var countryCode = pathname.substr(6);
+        var code = pathname.substr(6);
+        this.setState({ isLoading: true, countryCode: code});
 
-        fetch('/graphas/api/country/' + countryCode)
+        fetch('/graphas/api/country-connections-graph/' + code)
             .then(response => response.json())
-            .then(data => this.setState({ asinfos: data, isLoading: false }));
+            .then(data => this.setState({ graph: data, isLoading: false }));
     }
 
 
     render() {
-        if (this.state.isLoading) {
+        if (this.state.isLoading === true) {
             return (
                 <div>
                     <AppNavbar />
-                    <div><p>Loading...</p>
+                    <div className="App-loading">
+                        <h2>Loading...</h2>
                     </div>
                 </div>
             )
@@ -41,15 +43,10 @@ class Graph extends Component {
                 <AppNavbar />
                 <div>
                     <div className="App-left-div">
-                        {this.state.asinfos.map(item => (
-                            <Button key={item.number} className="App-button" >
-                                {"AS" + item.number}
-                            </Button>
-                        ))}
+                        <CountryStats countryCode={this.state.countryCode}/>
                     </div>
                     <div className="App-right-div">
-                     <h2>TODO</h2>
-                        <AsConnection/>
+                        <AsConnection {...this.state} />
                     </div>
                 </div>
             </div>
@@ -58,4 +55,4 @@ class Graph extends Component {
     }
 }
 
-export default Graph;
+export default GraphCountry;

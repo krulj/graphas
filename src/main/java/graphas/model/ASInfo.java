@@ -60,6 +60,10 @@ public class ASInfo implements Serializable {
 		this.asProperties = asProperties;
 	}
 
+	public String getName() {
+		return "AS" + number;
+	}
+
 	@Override
 	public String toString() {
 		return "ASInfo [number=" + number + ", country=" + country + "]";

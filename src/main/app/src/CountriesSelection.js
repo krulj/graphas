@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input } from 'reactstrap';
 import './App.css';
 import SimpleMap from './SimpleMap';
+import { Redirect } from 'react-router';
 
 class CountriesSelection extends Component {
 
@@ -24,7 +25,11 @@ class CountriesSelection extends Component {
 
     render() {
         if (this.state.isLoading) {
-            return <p>Loading...</p>
+            return (
+                <div className="App-loading">
+                    <h2>Loading...</h2>
+                </div>
+            );
         }
 
         return (
@@ -33,7 +38,6 @@ class CountriesSelection extends Component {
                     <List items={this.state.countries} />
                 </div>
                 <div className="App-right-div">
-                    <h2>Select country for AS lookup</h2>
                     <SimpleMap />
                 </div>
             </div>
@@ -46,20 +50,33 @@ class List extends React.Component {
         super(props);
         this.state = {
             filtered: [],
-            notFiltered: []
+            notFiltered: [],
+            redirect: false,
+            country: ''
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleCountrySelection = this.handleCountrySelection.bind(this)
     }
 
     componentDidMount() {
         this.setState({
-            notFiltered: this.props.items
+            notFiltered: this.props.items,
+            redirect: false
         });
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             notFiltered: nextProps.items
+        });
+    }
+
+    handleCountrySelection(evt) {
+        console.log(evt.target);
+        var countryId = evt.target.getAttribute("data-country");
+        this.setState({
+            redirect: true,
+            country: countryId.substr(0, 3)
         });
     }
 
@@ -100,12 +117,19 @@ class List extends React.Component {
     }
 
     render() {
+        if (this.state.redirect === true) {
+            return <Redirect to={'/graph/' + this.state.country} />
+        }
+
         return (
             <div>
                 <Input type="text" className="App-input" onChange={this.handleChange} placeholder="Search..." />
 
                 {this.state.filtered.map(item => (
-                    <Button key={item} className="App-button" >
+                    <Button key={item}
+                        data-country={item}
+                        className="App-button"
+                        onClick={this.handleCountrySelection}>
                         {item}
                     </Button>
                 ))}

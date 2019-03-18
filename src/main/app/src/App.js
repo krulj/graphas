@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Home from './Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Asinfo from './Asinfo';
-import Graph from './Graph';
+import GraphCountry from './GraphCountry';
+import GraphAsn from './GraphAsn';
 
 class App extends Component {
     render() {
@@ -11,7 +12,8 @@ class App extends Component {
                 <Switch>
                     <Route path='/' exact={true} component={Home} />
                     <Route path='/asinfo' exact={true} component={Asinfo} />
-                    <Route name='/graph/:value' exact={true} component={Graph} />
+                    <Route path='/graph/:value' exact={true} component={GraphCountry} />
+                    <Route path='/asgraph/:value' exact={true} component={GraphAsn} />
                 </Switch>
             </Router>
         );
