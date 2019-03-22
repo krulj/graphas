@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import AppNavbar from './AppNavbar';
 import AsConnection from './AsConnection';
+import AsStats from './AsStats';
 
 
 class GraphAsn extends Component {
@@ -10,6 +11,7 @@ class GraphAsn extends Component {
         super(props);
         this.state = {
             graph: [],
+            asn: 0,
             isLoading: true
         };
     }
@@ -18,6 +20,8 @@ class GraphAsn extends Component {
         this.setState({ isLoading: true });
         var pathname = this.props.location.pathname;
         var asn = pathname.substr(9);
+        var number = parseInt(asn, 10)
+        this.setState({ asn: number });
 
         fetch('/graphas/api/as-connections-graph/' + asn)
             .then(response => response.json())
@@ -42,7 +46,7 @@ class GraphAsn extends Component {
                 <AppNavbar />
                 <div>
                     <div className="App-left-div">
-                        <h2>TODO get as props!</h2>
+                        <AsStats asnumber={this.state.asn} />
                     </div>
                     <div className="App-right-div">
                         <AsConnection {...this.state} />
