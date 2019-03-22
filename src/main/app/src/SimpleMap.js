@@ -10,7 +10,7 @@ import { Button } from 'reactstrap';
 
 const wrapperStyles = {
     width: "100%",
-    maxWidth: 980,
+    maxWidth: "95%",
     margin: "0 auto",
 }
 

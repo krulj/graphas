@@ -156,6 +156,9 @@ public class GraphAsServiceImpl implements GraphAsService {
 		HashMap<Long, CountryCode> mapCountryId = graphUtils.getGroup(asInfos);
 		for (Long id : all) {
 			CountryCode group = mapCountryId.get(id);
+			if (group == null) {
+				continue;
+			}
 			nodes.add(new Node(id, "AS" + id, group.getNumeric(), group.getName()));
 		}
 		return new ArrayList<>(nodes);
