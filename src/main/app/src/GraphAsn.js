@@ -44,7 +44,7 @@ class GraphAsn extends Component {
         return (
             <div>
                 <AppNavbar />
-                <div>
+                <div className="App-container-div">
                     <div className="App-left-div">
                         <AsStats asnumber={this.state.asn} />
                     </div>

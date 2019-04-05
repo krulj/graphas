@@ -40,7 +40,8 @@
 .App-left-div {
     margin-top: 1em;
     padding-left: 1em;
-    width : 20%;
+    width : 18%;
+    min-width: 200px;
     display: inline-block;
     overflow: auto;
     height: 550px;
@@ -64,7 +65,8 @@
 .App-right-div {
     margin-top: 1em;
     vertical-align: top;
-    width : 80%;
+    width : 100%;
+    min-width: 500px;
     display: inline-block;
     text-align: center;
 }
@@ -87,4 +89,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-divider {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.App-container-div{
+  display: flex;
+  width: 100%;
+}
+
+.App-devider-button {
+  padding: 0;
+  height: 100%;
 }

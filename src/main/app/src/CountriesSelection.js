@@ -33,7 +33,7 @@ class CountriesSelection extends Component {
         }
 
         return (
-            <div>
+            <div className="App-container-div">
                 <div className="App-left-div">
                     <List items={this.state.countries} />
                 </div>
