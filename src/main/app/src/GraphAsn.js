@@ -3,7 +3,12 @@ import './App.css';
 import AppNavbar from './AppNavbar';
 import AsConnection from './AsConnection';
 import AsStats from './AsStats';
+import { Button } from 'reactstrap';
 
+const dividerButtonStyle = {
+    padding: 0,
+    height: "100%"
+}
 
 class GraphAsn extends Component {
 
@@ -12,8 +17,10 @@ class GraphAsn extends Component {
         this.state = {
             graph: [],
             asn: 0,
-            isLoading: true
+            isLoading: true,
+            isHidden: false
         };
+        this.toggleHidden = this.toggleHidden.bind(this);
     }
 
     componentDidMount() {
@@ -28,6 +35,11 @@ class GraphAsn extends Component {
             .then(data => this.setState({ graph: data, isLoading: false }));
     }
 
+    toggleHidden() {
+        this.setState({
+            isHidden: !this.state.isHidden
+        })
+    }
 
     render() {
         if (this.state.isLoading === true) {
@@ -45,8 +57,13 @@ class GraphAsn extends Component {
             <div>
                 <AppNavbar />
                 <div className="App-container-div">
-                    <div className="App-left-div">
-                        <AsStats asnumber={this.state.asn} />
+                    {!this.state.isHidden && <Child asn={this.state.asn} />}
+                    <div className="App-divider">
+                        <Button key={"<"}
+                            style={dividerButtonStyle}
+                            onClick={this.toggleHidden}>
+                            {this.state.isHidden ? '>' : '<'}
+                        </Button>
                     </div>
                     <div className="App-right-div">
                         <AsConnection {...this.state} />
@@ -57,5 +74,11 @@ class GraphAsn extends Component {
         );
     }
 }
+
+const Child = ({ asn }) => (
+    <div className="App-left-div">
+        <AsStats asnumber={asn} />
+    </div>
+)
 
 export default GraphAsn;
