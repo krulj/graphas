@@ -7,11 +7,13 @@ public class Edge implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long from;
 	private long to;
+	private long value;
 
-	public Edge(long from, long to) {
+	public Edge(long from, long to, long value) {
 		super();
 		this.from = from;
 		this.to = to;
+		this.value = value;
 	}
 
 	public long getFrom() {
@@ -28,6 +30,14 @@ public class Edge implements Serializable {
 
 	public void setTo(long to) {
 		this.to = to;
+	}
+
+	public long getValue() {
+		return value;
+	}
+
+	public void setValue(long value) {
+		this.value = value;
 	}
 
 	@Override

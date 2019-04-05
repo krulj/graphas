@@ -1,4 +1,4 @@
-package graphas.jobs;
+package graphas.fetcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import graphas.model.AsConnection;
 import graphas.model.AsProperties;
 
-public class ASPropertiesPopulationJob {
+public class RipeStatsDataFetcher {
 
 	private static final String REST_API_OVERVIEW = "https://stat.ripe.net/data/as-overview/data.json?resource=AS";
 	private static final String REST_API_NEIGHBOURS = "https://stat.ripe.net/data/asn-neighbours/data.json?resource=AS";

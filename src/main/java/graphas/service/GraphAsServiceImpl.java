@@ -16,7 +16,7 @@ import graphas.AsConnectionRepository;
 import graphas.AsInfoRepository;
 import graphas.AsPropertiesRepository;
 import graphas.exception.ASNotFoundException;
-import graphas.jobs.ASPropertiesPopulationJob;
+import graphas.fetcher.RipeStatsDataFetcher;
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
 import graphas.model.AsProperties;
@@ -52,7 +52,7 @@ public class GraphAsServiceImpl implements GraphAsService {
 	public ASInfo getByASNumber(Long asNumber) {
 		ASInfo asInfo = asInfoRepository.getByAsNumber(asNumber).orElseThrow(() -> new ASNotFoundException(asNumber));
 		if (asInfo.getAsProperties() == null) {
-			AsProperties properties = ASPropertiesPopulationJob.getASProperties(asNumber);
+			AsProperties properties = RipeStatsDataFetcher.getASProperties(asNumber);
 			asInfo.setAsProperties(properties);
 			properties.setAsinfo(asInfo);
 			asInfoRepository.save(asInfo);
@@ -107,7 +107,7 @@ public class GraphAsServiceImpl implements GraphAsService {
 	public List<AsConnection> getConnections(long asNumber) {
 		List<AsConnection> dbConnections = asConnectionRepository.getByAsNumber(asNumber);
 		if (dbConnections == null || dbConnections.isEmpty()) {
-			List<AsConnection> connections = ASPropertiesPopulationJob.getASNeighbours(asNumber);
+			List<AsConnection> connections = RipeStatsDataFetcher.getASNeighbours(asNumber);
 			for (AsConnection asConnection : connections) {
 				asConnectionRepository.save(asConnection);
 			}
@@ -143,7 +143,8 @@ public class GraphAsServiceImpl implements GraphAsService {
 		for (AsConnection asConnection : asConnections) {
 			long to = asConnection.getTo();
 			long from = asConnection.getFrom();
-			edges.add(new Edge(from, to));
+			long value = asConnection.getPower();
+			edges.add(new Edge(from, to, value));
 		}
 		return new ArrayList<>(edges);
 	}
@@ -153,13 +154,10 @@ public class GraphAsServiceImpl implements GraphAsService {
 		GraphUtils graphUtils = new GraphUtils();
 		List<Long> all = graphUtils.getDistinctNodes(asConnections);
 		List<ASInfo> asInfos = getByAsNumbers(all);
-		HashMap<Long, CountryCode> mapCountryId = graphUtils.getGroup(asInfos);
-		for (Long id : all) {
-			CountryCode group = mapCountryId.get(id);
-			if (group == null) {
-				continue;
-			}
-			nodes.add(new Node(id, "AS" + id, group.getNumeric(), group.getName()));
+		for (ASInfo asInfo : asInfos) {
+			long number = asInfo.getNumber();
+			CountryCode country = asInfo.getCountry();
+			nodes.add(new Node(number, "AS" + number, country.getNumeric(), country.getName()));
 		}
 		return new ArrayList<>(nodes);
 	}

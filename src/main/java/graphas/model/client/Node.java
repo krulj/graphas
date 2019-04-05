@@ -9,6 +9,7 @@ public class Node implements Serializable {
 	private String label;
 	private long group;
 	private String title;
+	private long value;
 
 	public Node(long id, String label, long group, String title) {
 		this.id = id;

@@ -63,11 +63,6 @@ class GraphAsRestController {
 	
 	@GetMapping("/country-connections-graph/{country}")
 	Graph getCountryGraphConnections(@PathVariable String country) {
-//		List<Node> nodes = new ArrayList<Node>();
-//		List<Edge> edges = new ArrayList<Edge>();
-//		nodes.add(new Node(6700, "AS6700"));
-//		return new Graph(nodes,edges);
-		// TODO:
 		return graphAsService.getCountryGraphConnections(country);
 	}
 

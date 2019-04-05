@@ -34,15 +34,15 @@ class AsStats extends Component {
         console.log(this.state);
         return (
             <div>
-                <h2>
-                Autonomus system AS{this.state.asnumber}
-                </h2>
                 <h3>
-                    {this.state.asProperties.name}
+                AS{this.state.asnumber}
                 </h3>
                 <h4>
-                    {this.state.asProperties.description}
+                    {this.state.asProperties.name}
                 </h4>
+                <h5>
+                    {this.state.asProperties.description}
+                </h5>
                 <p>
                     Autonomus system registrated in {this.state.countryName}
                 </p>

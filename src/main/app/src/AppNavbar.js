@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import {
+    Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export default class AppNavbar extends Component {
@@ -17,16 +22,30 @@ export default class AppNavbar extends Component {
     }
 
     render() {
-        return <Navbar color="dark" dark expand="md">
-            <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                    <NavItem>
-                        <NavLink href="https://github.com/krulj/graphas">GitHub</NavLink>
-                    </NavItem>
-                </Nav>
-            </Collapse>
-        </Navbar>;
+        return (
+            <Navbar color="dark" dark expand="md">
+                <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="https://github.com/krulj/graphas">GitHub</NavLink>
+                        </NavItem>
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle nav caret>Options</DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem>Option 1</DropdownItem>
+                                <DropdownItem>Option 2</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem>Reset</DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        );
     }
 }
