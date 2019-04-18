@@ -14,5 +14,8 @@ public interface AsConnectionRepository extends CrudRepository<AsConnection, Lon
 
 	@Query("SELECT a FROM AsConnection a WHERE a.from = :asn")
 	List<AsConnection> getByAsNumber(@Param("asn") Long asn);
+	
+	@Query("SELECT a FROM AsConnection a WHERE a.from IN :asns")
+	List<AsConnection> getByAsNumbers(@Param("asns") List<Long> asns);
 
 }

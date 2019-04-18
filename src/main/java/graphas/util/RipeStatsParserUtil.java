@@ -3,7 +3,9 @@ package graphas.util;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -14,19 +16,26 @@ import java.util.stream.Stream;
 import com.neovisionaries.i18n.CountryCode;
 
 import graphas.model.ASInfo;
+import graphas.model.RIR;
 
 public class RipeStatsParserUtil {
 
 	public static List<ASInfo> getDataFromResource() throws IOException, URISyntaxException {
 		// Get file from resources folder
 		ClassLoader classLoader = RipeStatsParserUtil.class.getClassLoader();
+		List<ASInfo> result = new ArrayList<>();
 
-		Stream<String> stream = Files.lines(Paths.get(classLoader.getResource("delegated-ripencc.txt").toURI()));
-		List<ASInfo> list = stream.map(line -> parseLine(line)).filter(Objects::nonNull).collect(Collectors.toList());
+		for (RIR rir : RIR.values()) {
+			String fileName = rir.getFilename();
+			Path path = Paths.get(classLoader.getResource(fileName).toURI());
+			try (Stream<String> resource = Files.lines(path)) {
+				List<ASInfo> list = resource.map(i -> parseLine(rir, i)).filter(Objects::nonNull)
+						.collect(Collectors.toList());
+				result.addAll(list);
+			}
+		}
 
-		stream.close();
-
-		return list;
+		return result;
 	}
 
 	/**
@@ -35,7 +44,7 @@ public class RipeStatsParserUtil {
 	 * 
 	 * @param line
 	 */
-	private static ASInfo parseLine(final String line) {
+	private static ASInfo parseLine(final RIR rir, final String line) {
 
 		if (line.contains("|asn|")) {
 			String patternString = "\\|([A-Z]{2})\\|asn\\|(\\d+)\\|";
@@ -47,7 +56,7 @@ public class RipeStatsParserUtil {
 				String numberString = matcher.group(2);
 
 				long number = Long.parseLong(numberString);
-				return new ASInfo(number, CountryCode.getByAlpha2Code(country));
+				return new ASInfo(number, CountryCode.getByAlpha2Code(country), rir);
 			}
 		}
 		return null;

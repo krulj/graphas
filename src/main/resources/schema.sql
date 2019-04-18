@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS  asinfo (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	number INT NOT NULL,
-	country VARCHAR(3)
+	country VARCHAR(3),
+	rir VARCHAR(3)
 );
 
 CREATE TABLE IF NOT EXISTS  asproperties (

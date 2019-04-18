@@ -1,7 +1,6 @@
 package graphas.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +15,7 @@ import graphas.AsConnectionRepository;
 import graphas.AsInfoRepository;
 import graphas.AsPropertiesRepository;
 import graphas.exception.ASNotFoundException;
+import graphas.fetcher.ConcurentFetcher;
 import graphas.fetcher.RipeStatsDataFetcher;
 import graphas.model.ASInfo;
 import graphas.model.AsConnection;
@@ -96,10 +96,27 @@ public class GraphAsServiceImpl implements GraphAsService {
 	public List<AsConnection> getConnectionsbyCountry(String country) {
 		List<ASInfo> asInfos = getByCountry(country);
 		List<AsConnection> asConnections = new ArrayList<>();
-		for (ASInfo asInfo : asInfos) {
-			List<AsConnection> connections = getConnections(asInfo.getNumber());
-			asConnections.addAll(connections);
+
+		List<Long> asNumbers = asInfos.stream().map(ASInfo::getNumber).collect(Collectors.toList());
+
+		// Get all from database if exists
+		List<AsConnection> dbConnections = asConnectionRepository.getByAsNumbers(asNumbers);
+		asConnections.addAll(dbConnections);
+
+		// Get rest of items from Internet
+		List<Long> inDatabase = dbConnections.stream().map(AsConnection::getFrom).distinct()
+				.collect(Collectors.toList());
+		List<Long> notInDatabase = asNumbers.stream().filter(i -> !inDatabase.contains(i)).collect(Collectors.toList());
+
+		ConcurentFetcher concurentFetcher = new ConcurentFetcher(notInDatabase);
+		List<AsConnection> connections = concurentFetcher.getConnections();
+
+		// Save new connections to database
+		for (AsConnection newConnections : connections) {
+			asConnectionRepository.save(newConnections);
 		}
+
+		asConnections.addAll(connections);
 		return asConnections;
 	}
 

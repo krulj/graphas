@@ -25,6 +25,7 @@ public class ASInfo implements Serializable {
 	private Long id;
 	private long number;
 	private CountryCode country;
+	private RIR rir;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "asinfo")
 	AsProperties asProperties;
@@ -35,9 +36,10 @@ public class ASInfo implements Serializable {
 
 	// TODO: Generate equals and hashcode
 
-	public ASInfo(long number, CountryCode conutry) {
+	public ASInfo(long number, CountryCode country, RIR rir) {
 		this.number = number;
-		this.country = conutry;
+		this.country = country;
+		this.rir = rir;
 	}
 
 	public Long getId() {
@@ -62,6 +64,14 @@ public class ASInfo implements Serializable {
 
 	public String getName() {
 		return "AS" + number;
+	}
+
+	public RIR getrir() {
+		return rir;
+	}
+
+	public void setrir(RIR rir) {
+		this.rir = rir;
 	}
 
 	@Override
