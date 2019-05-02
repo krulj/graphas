@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import graphas.model.ASInfo;
 import graphas.service.GraphAsService;
-import graphas.util.RipeStatsParserUtil;
+import graphas.util.DelegatedFileParserUtil;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -20,7 +20,7 @@ public class DataLoader implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 
 		// Get file from resources folder
-		List<ASInfo> list = RipeStatsParserUtil.getDataFromResource();
+		List<ASInfo> list = DelegatedFileParserUtil.getDataFromResource();
 		graphAsService.saveAll(list);
 
 				

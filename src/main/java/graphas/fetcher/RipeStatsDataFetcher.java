@@ -14,6 +14,7 @@ import graphas.model.AsProperties;
 public class RipeStatsDataFetcher {
 
 	private static final String REST_API_OVERVIEW = "https://stat.ripe.net/data/as-overview/data.json?resource=AS";
+	private static final String REST_ROUTING_STATUS = "https://stat.ripe.net/data/routing-status/data.json?resource=AS";
 	private static final String REST_API_NEIGHBOURS = "https://stat.ripe.net/data/asn-neighbours/data.json?resource=AS";
 
 	public static AsProperties getASProperties(Long asNumber) {
@@ -22,17 +23,33 @@ public class RipeStatsDataFetcher {
 		String url = REST_API_OVERVIEW + asNumber;
 
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
 		JSONObject obj = new JSONObject(response.getBody());
-
 		JSONObject jsonData = obj.getJSONObject("data");
+
 		String name = jsonData.getString("holder");
 
-		JSONObject jsonBlock = jsonData.getJSONObject("block");
-		String resource = jsonBlock.getString("resource");
-		String resourceName = jsonBlock.getString("name");
-		String resourceDesc = jsonBlock.getString("desc");
-		String description = "Resource: " + resource + "; Registry: " + resourceName + "; " + resourceDesc;
+		restTemplate = new RestTemplate();
+		url = REST_ROUTING_STATUS + asNumber;
+
+		response = restTemplate.getForEntity(url, String.class);
+		obj = new JSONObject(response.getBody());
+		jsonData = obj.getJSONObject("data");
+
+		JSONObject space = jsonData.getJSONObject("announced_space");
+		JSONObject v4 = space.getJSONObject("v4");
+		int v4Prefixes = v4.getInt(("prefixes"));
+		String ipv4Originated = "Originated IPv4 prefixes: " + v4Prefixes;
+
+		JSONObject v6 = space.getJSONObject("v6");
+		int v6Prefixes = v6.getInt(("prefixes"));
+		String ipv6Originated = "Originated IPv6 prefixes: " + v6Prefixes;
+
+		JSONObject jsonBlock = jsonData.getJSONObject("first_seen");
+		String prefix = jsonBlock.getString("prefix");
+		String time = jsonBlock.getString("time").split("T")[0];
+		String announcing = "First ever seen as origin announcing " + prefix + ", on " + time;
+
+		final String description = announcing + "; " + ipv4Originated + "; " + ipv6Originated;
 
 		return new AsProperties(name, description);
 	}
@@ -59,5 +76,5 @@ public class RipeStatsDataFetcher {
 		}
 		return neighboursList;
 	}
-	
+
 }

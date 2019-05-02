@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 
+import graphas.model.ASInfo;
 import graphas.model.AsConnection;
 
 public class ConcurentFetcher {
@@ -18,16 +19,16 @@ public class ConcurentFetcher {
 	private static final Logger logger = Logger.getLogger(ConcurentFetcher.class);
 	private ExecutorService executor = Executors.newFixedThreadPool(10);
 	private CompletionService<List<AsConnection>> taskCompletionService = new ExecutorCompletionService<>(executor);
-	private List<Long> asNumbers;
+	private List<ASInfo> asNumbers;
 
-	public ConcurentFetcher(List<Long> asNumbers) {
-		this.asNumbers = asNumbers;
+	public ConcurentFetcher(List<ASInfo> notInDatabase) {
+		this.asNumbers = notInDatabase;
 	}
 
 	public List<AsConnection> getConnections() {
 		List<AsConnection> asConnections = new ArrayList<>();
 		try {
-			for (Long asNumber : asNumbers) {
+			for (ASInfo asNumber : asNumbers) {
 				taskCompletionService.submit(new CallableObject(asNumber));
 			}
 			for (int i = 0; i < asNumbers.size(); i++) {
@@ -46,16 +47,26 @@ public class ConcurentFetcher {
 class CallableObject implements Callable<List<AsConnection>> {
 	private static final Logger logger = Logger.getLogger(CallableObject.class);
 
-	private long asNumber;
+	private ASInfo asInfo;
 
-	public CallableObject(long asNumber) {
-		this.asNumber = asNumber;
+	public CallableObject(ASInfo asInfo) {
+		this.asInfo = asInfo;
 	}
 
 	@Override
 	public List<AsConnection> call() throws Exception {
 		try {
-			return RipeStatsDataFetcher.getASNeighbours(asNumber);
+			switch (asInfo.getrir()) {
+			case AFRINIC:	//There is no valid sate for this kind of stats
+			case APNIC:
+			case ARIN:
+			case LACNIC:
+			case RIPE:
+				return RipeStatsDataFetcher.getASNeighbours(asInfo.getNumber());
+			default:
+				break;
+			}
+
 		} catch (Exception e) {
 			logger.error(e);
 		}

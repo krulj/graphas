@@ -40,9 +40,9 @@ class AsStats extends Component {
                 <h4>
                     {this.state.asProperties.name}
                 </h4>
-                <h5>
+                <p>
                     {this.state.asProperties.description}
-                </h5>
+                </p>
                 <p>
                     Autonomus system registrated in {this.state.countryName}
                 </p>

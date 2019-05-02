@@ -40,11 +40,13 @@
 .App-left-div {
     margin-top: 1em;
     padding-left: 1em;
-    width : 18%;
+    width : 20%;
     min-width: 200px;
     display: inline-block;
     overflow: auto;
     height: 550px;
+    word-break: break-all;
+    word-break: break-word;
 }
 
 .App-button {
@@ -57,9 +59,9 @@
 
 .App-map-button {
     position: absolute;
-    left: 1em;
+    left: 0.5em;
     bottom: 1em;
-    width: 18%;
+    width: 200px;
 }
 
 .App-right-div {

@@ -76,6 +76,7 @@ class AsConnection extends Component {
         this.appRef = createRef();
         this.redirect = this.redirect.bind(this);
         this.setValueForEveryNode = this.setValueForEveryNode.bind(this);
+        this.calcStats = this.calcStats.bind(this);
     }
 
     redirect(params) {
@@ -94,6 +95,18 @@ class AsConnection extends Component {
         });
     }
 
+    calcStats(nodes) {
+        var maxNode = nodes.max('value');
+        var maxNeighbours = nodes.max('label');
+        var stats = [];
+        stats.maxNode = maxNode;
+        //stats.maxNeighbours = maxNeighbours;
+
+        console.log(stats);
+        console.log(maxNeighbours);
+        this.props.getStats(stats);
+    }
+
     componentDidMount() {
 
         var nodes = new DataSet(this.props.graph.nodes);
@@ -107,6 +120,7 @@ class AsConnection extends Component {
         this.setValueForEveryNode(this.network, nodes);
         this.network.redraw();
         this.network.on("doubleClick", this.redirect);
+        this.calcStats(nodes);
         this.setState({ redirect: false });
     }
 

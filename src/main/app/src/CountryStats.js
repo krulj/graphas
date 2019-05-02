@@ -41,10 +41,12 @@ class CountryStats extends Component {
                     Total number of Autonomus system registred in {this.state.countryName}: {this.state.asNums.length}
                 </p>
                 <p>
-                    List of all registred Autonomus systems:<br/>
-                    {this.state.asNums.map(item => (
-                        item + " "
-                    ))}
+                    Top connected Autonomus system in country:<br/>
+                    {this.props.topConnect.maxNode.label}  ({this.props.topConnect.maxNode.value})
+                </p>
+                <p>
+                    Most connections with:<br/>
+                    {this.props.topConnect.maxNeighbours}  ({this.props.topConnect.maxNeighbours})
                 </p>
             </div>
 

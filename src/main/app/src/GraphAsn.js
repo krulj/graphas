@@ -18,9 +18,11 @@ class GraphAsn extends Component {
             graph: [],
             asn: 0,
             isLoading: true,
-            isHidden: false
+            isHidden: false,
+            stats: []
         };
         this.toggleHidden = this.toggleHidden.bind(this);
+        this.getStats = this.getStats.bind(this);
     }
 
     componentDidMount() {
@@ -40,6 +42,12 @@ class GraphAsn extends Component {
             isHidden: !this.state.isHidden
         })
     }
+
+    getStats = (stats) => {
+        this.setState({
+            stats: stats
+        })
+    };
 
     render() {
         if (this.state.isLoading === true) {
@@ -66,7 +74,7 @@ class GraphAsn extends Component {
                         </Button>
                     </div>
                     <div className="App-right-div">
-                        <AsConnection {...this.state} />
+                        <AsConnection graph={this.state.graph} getStats={this.getStats} />
                     </div>
                 </div>
             </div>

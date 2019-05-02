@@ -18,11 +18,11 @@ import com.neovisionaries.i18n.CountryCode;
 import graphas.model.ASInfo;
 import graphas.model.RIR;
 
-public class RipeStatsParserUtil {
+public class DelegatedFileParserUtil {
 
 	public static List<ASInfo> getDataFromResource() throws IOException, URISyntaxException {
 		// Get file from resources folder
-		ClassLoader classLoader = RipeStatsParserUtil.class.getClassLoader();
+		ClassLoader classLoader = DelegatedFileParserUtil.class.getClassLoader();
 		List<ASInfo> result = new ArrayList<>();
 
 		for (RIR rir : RIR.values()) {

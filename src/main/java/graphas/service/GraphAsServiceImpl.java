@@ -15,6 +15,7 @@ import graphas.AsConnectionRepository;
 import graphas.AsInfoRepository;
 import graphas.AsPropertiesRepository;
 import graphas.exception.ASNotFoundException;
+import graphas.fetcher.ArinStatsDataFetcher;
 import graphas.fetcher.ConcurentFetcher;
 import graphas.fetcher.RipeStatsDataFetcher;
 import graphas.model.ASInfo;
@@ -52,7 +53,25 @@ public class GraphAsServiceImpl implements GraphAsService {
 	public ASInfo getByASNumber(Long asNumber) {
 		ASInfo asInfo = asInfoRepository.getByAsNumber(asNumber).orElseThrow(() -> new ASNotFoundException(asNumber));
 		if (asInfo.getAsProperties() == null) {
-			AsProperties properties = RipeStatsDataFetcher.getASProperties(asNumber);
+			AsProperties properties;
+			switch (asInfo.getrir()) {
+
+			case AFRINIC:
+			case APNIC:
+				// properties = ApnicStatsDataFetcher.getASProperties(asNumber);
+				// break;
+			case ARIN:
+				properties = ArinStatsDataFetcher.getASProperties(asNumber);
+				break;
+			case LACNIC:
+			case RIPE:
+				properties = RipeStatsDataFetcher.getASProperties(asNumber);
+				break;
+			default:
+				properties = RipeStatsDataFetcher.getASProperties(asNumber);
+				break;
+			}
+
 			asInfo.setAsProperties(properties);
 			properties.setAsinfo(asInfo);
 			asInfoRepository.save(asInfo);
@@ -88,8 +107,8 @@ public class GraphAsServiceImpl implements GraphAsService {
 	@Override
 	public List<String> getAllCountries() {
 		List<CountryCode> countries = asInfoRepository.getAllCountries();
-		return countries.stream().map(arg -> arg.getAlpha3() + " - " + arg.getName()).sorted()
-				.collect(Collectors.toList());
+		return countries.stream().filter(c -> c != null && c.getName() != null && c.getAlpha3() != null)
+				.map(c -> c.getAlpha3() + " - " + c.getName()).sorted().collect(Collectors.toList());
 	}
 
 	@Override
@@ -106,7 +125,8 @@ public class GraphAsServiceImpl implements GraphAsService {
 		// Get rest of items from Internet
 		List<Long> inDatabase = dbConnections.stream().map(AsConnection::getFrom).distinct()
 				.collect(Collectors.toList());
-		List<Long> notInDatabase = asNumbers.stream().filter(i -> !inDatabase.contains(i)).collect(Collectors.toList());
+		List<ASInfo> notInDatabase = asInfos.stream().filter(i -> !inDatabase.contains(i.getNumber()))
+				.collect(Collectors.toList());
 
 		ConcurentFetcher concurentFetcher = new ConcurentFetcher(notInDatabase);
 		List<AsConnection> connections = concurentFetcher.getConnections();

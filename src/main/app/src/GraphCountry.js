@@ -18,9 +18,11 @@ class GraphCountry extends Component {
             graph: [],
             countryCode: '',
             isLoading: true,
-            isHidden: false
+            isHidden: false,
+            stats: []
         };
         this.toggleHidden = this.toggleHidden.bind(this);
+        this.getStats = this.getStats.bind(this);
     }
 
     componentDidMount() {
@@ -39,6 +41,12 @@ class GraphCountry extends Component {
         })
     }
 
+    getStats = (stats) => {
+        this.setState({
+            stats: stats
+        })
+    };
+
     render() {
         if (this.state.isLoading === true) {
             return (
@@ -54,7 +62,7 @@ class GraphCountry extends Component {
             <div>
                 <AppNavbar />
                 <div className="App-container-div">
-                    {!this.state.isHidden && <Child countryCode={this.state.countryCode}/>}
+                    {!this.state.isHidden && <Child countryCode={this.state.countryCode} topConnect={this.state.stats} />}
                     <div className="App-divider">
                         <Button key={"<"}
                             style={dividerButtonStyle}
@@ -63,7 +71,7 @@ class GraphCountry extends Component {
                         </Button>
                     </div>
                     <div className="App-right-div">
-                        <AsConnection {...this.state} />
+                        <AsConnection graph={this.state.graph} getStats={this.getStats} />
                     </div>
                 </div>
             </div>
@@ -72,9 +80,9 @@ class GraphCountry extends Component {
     }
 }
 
-const Child = ({ countryCode }) => (
+const Child = ({ countryCode, topConnect }) => (
     <div className="App-left-div">
-        <CountryStats countryCode={countryCode} />
+        <CountryStats countryCode={countryCode} topConnect={topConnect} />
     </div>
 )
 
