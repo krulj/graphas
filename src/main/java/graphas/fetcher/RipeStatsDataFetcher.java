@@ -19,21 +19,19 @@ public class RipeStatsDataFetcher {
 
 	public static AsProperties getASProperties(Long asNumber) {
 
+		final String name = getAsName(asNumber);
+		final String description = getAsDescription(asNumber);
+
+		return new AsProperties(name, description);
+	}
+
+	private static String getAsDescription(Long asNumber) {
 		RestTemplate restTemplate = new RestTemplate();
-		String url = REST_API_OVERVIEW + asNumber;
+		String url = REST_ROUTING_STATUS + asNumber;
 
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 		JSONObject obj = new JSONObject(response.getBody());
 		JSONObject jsonData = obj.getJSONObject("data");
-
-		String name = jsonData.getString("holder");
-
-		restTemplate = new RestTemplate();
-		url = REST_ROUTING_STATUS + asNumber;
-
-		response = restTemplate.getForEntity(url, String.class);
-		obj = new JSONObject(response.getBody());
-		jsonData = obj.getJSONObject("data");
 
 		JSONObject space = jsonData.getJSONObject("announced_space");
 		JSONObject v4 = space.getJSONObject("v4");
@@ -50,8 +48,19 @@ public class RipeStatsDataFetcher {
 		String announcing = "First ever seen as origin announcing " + prefix + ", on " + time;
 
 		final String description = announcing + "; " + ipv4Originated + "; " + ipv6Originated;
+		return description;
+	}
 
-		return new AsProperties(name, description);
+	private static String getAsName(Long asNumber) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = REST_API_OVERVIEW + asNumber;
+
+		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+		JSONObject obj = new JSONObject(response.getBody());
+		JSONObject jsonData = obj.getJSONObject("data");
+
+		String name = jsonData.getString("holder");
+		return name;
 	}
 
 	public static List<AsConnection> getASNeighbours(Long asNumber) {

@@ -26,10 +26,10 @@ class CountryStats extends Component {
             return (
                 <div>
                     <p>
-                       .
+                        .
                     </p>
                 </div>
-    
+
             )
         }
         return (
@@ -41,17 +41,33 @@ class CountryStats extends Component {
                     Total number of Autonomus system registred in {this.state.countryName}: {this.state.asNums.length}
                 </p>
                 <p>
-                    Top connected Autonomus system in country:<br/>
+                    Top connected Autonomus system in country:<br />
                     {this.props.topConnect.maxNode.label}  ({this.props.topConnect.maxNode.value})
                 </p>
-                <p>
-                    Most connections with:<br/>
-                    {this.props.topConnect.maxNeighbours}  ({this.props.topConnect.maxNeighbours})
-                </p>
+                <Child countryName={this.state.countryName} maxNeighbours={this.props.topConnect.maxNeighbours} />
             </div>
 
         );
     }
 }
+
+const Child = ({ countryName, maxNeighbours }) => (
+    <div>
+        Most connections with:<br />
+        {Object.entries(maxNeighbours)
+            .sort(function (a, b) {
+                // Order by num of neighbours
+                return b[1] - a[1];
+            })
+            .filter(function (value, index, arr) {
+                // remove current country
+                return value[0] !== countryName;
+            })
+            .splice(0, 5)
+            .map((txt, index) =>
+                <span key={index}>{txt[0]}: {txt[1]}<br /></span>)}
+        {console.log(Object.entries(maxNeighbours))}
+    </div>
+)
 
 export default CountryStats;

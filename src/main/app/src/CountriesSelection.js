@@ -103,7 +103,7 @@ class List extends React.Component {
                 // If it does, it will be added to newList. Using lowercase eliminates
                 // issues with capitalization in search terms and search content
                 var include = lc.includes(filter);
-                if (include && counter < 5) {
+                if (include && counter < 3) {
                     counter++;
                     return include;
                 }

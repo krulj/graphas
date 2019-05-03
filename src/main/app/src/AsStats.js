@@ -40,9 +40,7 @@ class AsStats extends Component {
                 <h4>
                     {this.state.asProperties.name}
                 </h4>
-                <p>
-                    {this.state.asProperties.description}
-                </p>
+                <Child description={this.state.asProperties.description}/>
                 <p>
                     Autonomus system registrated in {this.state.countryName}
                 </p>
@@ -51,6 +49,12 @@ class AsStats extends Component {
         );
     }
 }
+
+const Child = ({ description }) => (
+    <div>
+        {description.split(';').map((txt, index) => <p key={index}>{txt}</p>)}
+    </div>
+)
 
 
 export default AsStats;

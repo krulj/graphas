@@ -97,10 +97,14 @@ class AsConnection extends Component {
 
     calcStats(nodes) {
         var maxNode = nodes.max('value');
-        var maxNeighbours = nodes.max('label');
+        var allCountries = nodes.map(node => node.title);
+        
+        var  maxNeighbours = {};
+        allCountries.forEach(function(i) { maxNeighbours[i] = (maxNeighbours[i]||0) + 1;});
+
         var stats = [];
         stats.maxNode = maxNode;
-        //stats.maxNeighbours = maxNeighbours;
+        stats.maxNeighbours = maxNeighbours;
 
         console.log(stats);
         console.log(maxNeighbours);
