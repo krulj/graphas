@@ -65,7 +65,7 @@ class GraphAsn extends Component {
             <div>
                 <AppNavbar />
                 <div className="App-container-div">
-                    {!this.state.isHidden && <Child asn={this.state.asn} />}
+                    {!this.state.isHidden && <Child asn={this.state.asn} countryCode={this.state.countryCode} topConnect={this.state.stats}/>}
                     <div className="App-divider">
                         <Button key={"<"}
                             style={dividerButtonStyle}
@@ -83,9 +83,9 @@ class GraphAsn extends Component {
     }
 }
 
-const Child = ({ asn }) => (
+const Child = ({ asn, countryCode, topConnect }) => (
     <div className="App-left-div">
-        <AsStats asnumber={asn} />
+        <AsStats asnumber={asn} countryCode={countryCode} topConnect={topConnect}/>
     </div>
 )
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import PieChart from './charts/PieChart';
 
 class CountryStats extends Component {
 
@@ -10,6 +11,7 @@ class CountryStats extends Component {
             countryName: '',
             isLoading: true
         };
+        this.extractArray = this.extractArray.bind(this);
     }
 
     componentDidMount() {
@@ -20,6 +22,43 @@ class CountryStats extends Component {
             .then(data => this.setState({ countryName: data.country, asNums: data.asNums, isLoading: false }));
     }
 
+    extractArray(countryName, maxNeighbours, position) {
+        var myArray = [];
+        var array = Object.entries(maxNeighbours)
+            .sort(function (a, b) {
+                // Order by num of neighbours
+                return b[1] - a[1];
+            })
+            .filter(function (value, index, arr) {
+                // remove current country
+                return value[0] !== countryName;
+            });
+
+        if (array.length > 5) {
+            for (let index = 0; index < 5; index++) {
+                const element = array[index];
+                myArray.push(element[position]);
+            }
+            if (position === 0) {
+                myArray.push("Others");
+            } else {
+                let val = 0;
+                for (let index = 5; index < array.length; index++) {
+                    const element = array[index];
+                    val = val + element[position];
+                }
+                myArray.push(val);
+            }
+
+        } else {
+            for (let index = 0; index < array.length; index++) {
+                const element = array[index];
+                myArray.push(element[position]);
+            }
+        }
+        console.log(myArray);
+        return myArray;
+    }
 
     render() {
         if (this.state.isLoading === true) {
@@ -44,30 +83,16 @@ class CountryStats extends Component {
                     Top connected Autonomus system in country:<br />
                     {this.props.topConnect.maxNode.label}  ({this.props.topConnect.maxNode.value})
                 </p>
-                <Child countryName={this.state.countryName} maxNeighbours={this.props.topConnect.maxNeighbours} />
+                <p>
+                    Top connected countries:
+                </p>
+                <PieChart labels={this.extractArray(this.state.countryName, this.props.topConnect.maxNeighbours, 0)}
+                    series={this.extractArray(this.state.countryName, this.props.topConnect.maxNeighbours, 1)}>
+                </PieChart>
             </div>
 
         );
     }
 }
-
-const Child = ({ countryName, maxNeighbours }) => (
-    <div>
-        Most connections with:<br />
-        {Object.entries(maxNeighbours)
-            .sort(function (a, b) {
-                // Order by num of neighbours
-                return b[1] - a[1];
-            })
-            .filter(function (value, index, arr) {
-                // remove current country
-                return value[0] !== countryName;
-            })
-            .splice(0, 5)
-            .map((txt, index) =>
-                <span key={index}>{txt[0]}: {txt[1]}<br /></span>)}
-        {console.log(Object.entries(maxNeighbours))}
-    </div>
-)
 
 export default CountryStats;
