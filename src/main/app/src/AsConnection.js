@@ -83,7 +83,7 @@ class AsConnection extends Component {
         if (params.nodes.length === 0) {
             return;
         }
-        //console.log(params);
+        console.log(params);
         this.setState({ redirect: true, asn: params.nodes });
     }
 
@@ -96,11 +96,17 @@ class AsConnection extends Component {
     }
 
     calcStats(nodes) {
-        var maxNode = nodes.max('value');
+
         var allCountries = nodes.map(node => node.title);
         
-        var  maxNeighbours = {};
-        allCountries.forEach(function(i) { maxNeighbours[i] = (maxNeighbours[i]||0) + 1;});
+        var maxNeighbours = {};
+        allCountries.forEach(function (i) {
+            maxNeighbours[i] = (maxNeighbours[i] || 0) + 1;
+        });
+
+        var maxNode = nodes.map(function(node) {
+            return [node.id, node.value];
+        });
 
         var stats = [];
         stats.maxNode = maxNode;
@@ -128,6 +134,12 @@ class AsConnection extends Component {
         this.setState({ redirect: false });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        // only update chart if the data has changed
+        if (prevState.asn !== this.state.asn) {
+            this.setState({ redirect: false });
+        }
+    }
 
     render() {
         if (this.state.redirect === true) {

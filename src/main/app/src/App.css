@@ -44,9 +44,10 @@
     min-width: 200px;
     display: inline-block;
     overflow: auto;
-    height: 550px;
+    height: 100%;
     word-break: break-all;
     word-break: break-word;
+    word-break: normal;
 }
 
 .App-button {

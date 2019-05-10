@@ -37,10 +37,7 @@ export default class AppNavbar extends Component {
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>Options</DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem>Option 1</DropdownItem>
-                                <DropdownItem>Option 2</DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>Reset</DropdownItem>
+                                <DropdownItem tag={Link} to="/">Reload data</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>

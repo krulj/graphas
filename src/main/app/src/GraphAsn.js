@@ -23,9 +23,21 @@ class GraphAsn extends Component {
         };
         this.toggleHidden = this.toggleHidden.bind(this);
         this.getStats = this.getStats.bind(this);
+        this.loadComponentData = this.loadComponentData.bind(this);
     }
 
     componentDidMount() {
+        this.loadComponentData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // only update chart if the data has changed
+        if (prevProps.location.pathname !== this.props.location.pathname) {
+            this.loadComponentData();
+        }
+    }
+
+    loadComponentData() {
         this.setState({ isLoading: true });
         var pathname = this.props.location.pathname;
         var asn = pathname.substr(9);
@@ -65,7 +77,7 @@ class GraphAsn extends Component {
             <div>
                 <AppNavbar />
                 <div className="App-container-div">
-                    {!this.state.isHidden && <Child asn={this.state.asn} />}
+                    {!this.state.isHidden && <Child asn={this.state.asn} countryCode={this.state.countryCode} topConnect={this.state.stats}/>}
                     <div className="App-divider">
                         <Button key={"<"}
                             style={dividerButtonStyle}
@@ -83,9 +95,9 @@ class GraphAsn extends Component {
     }
 }
 
-const Child = ({ asn }) => (
+const Child = ({ asn, countryCode, topConnect }) => (
     <div className="App-left-div">
-        <AsStats asnumber={asn} />
+        <AsStats asnumber={asn} countryCode={countryCode} topConnect={topConnect}/>
     </div>
 )
 
