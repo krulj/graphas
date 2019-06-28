@@ -2,7 +2,7 @@ import React, { Component, createRef } from "react";
 import { Network, DataSet } from 'vis';
 import { withRouter } from "react-router-dom";
 import { Redirect } from 'react-router';
-import '../node_modules/vis/dist/vis.min.css';
+import '../../../node_modules/vis/dist/vis.min.css';
 
 const wrapperStyles = {
     height: "88vh"

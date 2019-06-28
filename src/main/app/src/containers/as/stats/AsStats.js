@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import PieChart from './charts/PieChart';
+import './../../../App.css';
+import PieChart from '../../../components/charts/PieChart';
+import Loading from '../../../components/helper/Loading';
 
 class AsStats extends Component {
 
@@ -71,11 +72,7 @@ class AsStats extends Component {
     render() {
         if (this.state.isLoading === true) {
             return (
-                <div>
-                    <p>
-                        Loading ...
-                    </p>
-                </div>
+               <Loading />
             )
         }
         console.log(this.state);

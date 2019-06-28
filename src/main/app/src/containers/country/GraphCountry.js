@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
-import AppNavbar from './AppNavbar';
-import AsConnection from './AsConnection';
-import CountryStats from './CountryStats';
+import '../../App.css';
+import AppNavbar from '../../AppNavbar';
+import AsConnection from '../graph/AsConnection';
+import CountryStats from './stats/CountryStats';
 import { Button } from 'reactstrap';
+import Loading from './../../components/helper/Loading';
 
 const dividerButtonStyle = {
     padding: 0,
@@ -52,9 +53,7 @@ class GraphCountry extends Component {
             return (
                 <div>
                     <AppNavbar />
-                    <div className="App-loading">
-                        <h2>Loading...</h2>
-                    </div>
+                    <Loading />
                 </div>
             )
         }

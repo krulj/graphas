@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Home from './Home';
+import Home from './containers/home/Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import GraphCountry from './GraphCountry';
-import GraphAsn from './GraphAsn';
+import GraphCountry from './containers/country/GraphCountry';
+import GraphAsn from './containers/as/GraphAsn';
 
 class App extends Component {
     render() {
