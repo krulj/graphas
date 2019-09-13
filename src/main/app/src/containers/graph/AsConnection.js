@@ -135,7 +135,6 @@ class AsConnection extends Component {
         // only update chart if the data has changed
         if (prevState.asn !== this.state.asn) {
             this.setState({ redirect: false });
-            console.log("updated2")
         }
     }
 
