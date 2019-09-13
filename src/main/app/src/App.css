@@ -38,8 +38,7 @@
 }
 
 .App-left-div {
-    margin-top: 1em;
-    padding-left: 1em;
+    padding: 0.5em;
     width : 20%;
     min-width: 200px;
     display: inline-block;
@@ -66,12 +65,10 @@
 }
 
 .App-right-div {
-    margin-top: 0.5em;
-    vertical-align: top;
+    padding: 0.5em;
     width : 100%;
     min-width: 500px;
     display: inline-block;
-    text-align: center;
 }
 
 .App-input {
@@ -96,7 +93,8 @@
 
 .App-divider {
   display: inline-block;
-  margin-top: 5px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 .App-container-div{

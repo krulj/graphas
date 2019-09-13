@@ -112,8 +112,6 @@ class AsConnection extends Component {
         stats.maxNode = maxNode;
         stats.maxNeighbours = maxNeighbours;
 
-        console.log(stats);
-        console.log(maxNeighbours);
         this.props.getStats(stats);
     }
 
@@ -126,7 +124,6 @@ class AsConnection extends Component {
             edges: edges
         };
         this.network = new Network(this.appRef.current, data, options);
-        //console.log(this.network.getConnectedEdges(43940));
         this.setValueForEveryNode(this.network, nodes);
         this.network.redraw();
         this.network.on("doubleClick", this.redirect);
@@ -138,6 +135,7 @@ class AsConnection extends Component {
         // only update chart if the data has changed
         if (prevState.asn !== this.state.asn) {
             this.setState({ redirect: false });
+            console.log("updated2")
         }
     }
 
