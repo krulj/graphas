@@ -79,4 +79,30 @@ public class ASInfo implements Serializable {
 		return "ASInfo [number=" + number + ", country=" + country + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + (int) (number ^ (number >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof ASInfo))
+			return false;
+		ASInfo other = (ASInfo) obj;
+		if (country != other.country)
+			return false;
+		if (number != other.number)
+			return false;
+		return true;
+	}
+
+	
 }

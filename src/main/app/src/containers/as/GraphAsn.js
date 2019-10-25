@@ -11,7 +11,8 @@ class GraphAsn extends Component {
     this.state = {
       graph: [],
       asn: 0,
-      isLoading: true,
+      isLoadingGraph: true,
+      isLoadingStats: true,
       isHidden: false,
       stats: [],
       countryName: "",
@@ -34,7 +35,7 @@ class GraphAsn extends Component {
   }
 
   loadComponentData() {
-    this.setState({ isLoading: true });
+    this.setState({ isLoadingGraph: true });
     var pathname = this.props.location.pathname;
     var asn = pathname.substr(9);
     var number = parseInt(asn, 10);
@@ -42,14 +43,15 @@ class GraphAsn extends Component {
 
     fetch("/graphas/api/as-connections-graph/" + asn)
       .then(response => response.json())
-      .then(data => this.setState({ graph: data, isLoading: false }));
+      .then(data => this.setState({ graph: data, isLoadingGraph: false }));
 
     fetch("/graphas/api/asnumber/" + number)
       .then(response => response.json())
       .then(data =>
         this.setState({
           countryName: data.country,
-          asProperties: data.asProperties
+          asProperties: data.asProperties,
+          isLoadingStats: false
         })
       );
   }
@@ -67,7 +69,7 @@ class GraphAsn extends Component {
   };
 
   render() {
-    if (this.state.isLoading === true) {
+    if (this.state.isLoadingGraph === true) {
       return (
         <div>
           <AppNavbar />
@@ -87,6 +89,7 @@ class GraphAsn extends Component {
         stats={this.state.stats}
         toggleHidden={this.toggleHidden}
         isHidden={this.state.isHidden}
+        isLoading={this.state.isLoadingStats}
       ></AsPresenter>
     );
   }

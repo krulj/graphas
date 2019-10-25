@@ -24,6 +24,19 @@ const getOptions = props => {
         breakpoint: 480
       }
     ],
+    dataLabels: {
+      enabled: false
+    },
+    title: {
+      text: props.title,
+      align: "left",
+      offsetX: 0,
+      offsetY: 10,
+      floating: true,
+      style: {
+        fontSize: "16px",
+      }
+    },
     plotOptions: {
       pie: {
         offsetX: 0,

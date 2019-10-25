@@ -20,9 +20,8 @@ export default function CountryStats(props) {
         Total number of Autonomus system registred in {props.countryName}:{" "}
         {props.asNums.length}
       </p>
-      <PieChart labels={maxNodeLabels} series={maxNodeSeries}></PieChart>
-      <p>Top connected countries:</p>
-      <PieChart labels={maxNeighLabels} series={maxNeighSeries}></PieChart>
+      <PieChart labels={maxNodeLabels} series={maxNodeSeries} title={"Top connected AS in country"}></PieChart>
+      <PieChart labels={maxNeighLabels} series={maxNeighSeries} title={"Top connected countries"}></PieChart>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { Component, createRef } from "react";
 import { Network, DataSet } from 'vis';
 import { withRouter } from "react-router-dom";
-import { Redirect } from 'react-router';
 import '../../../node_modules/vis/dist/vis.min.css';
 
 const wrapperStyles = {
@@ -21,7 +20,7 @@ const options = {
             direction: 'UD',        // UD, DU, LR, RL
             sortMethod: 'hubsize'   // hubsize, directed
         },
-        improvedLayout: false
+        improvedLayout: true
     },
 
     nodes: {
@@ -68,10 +67,6 @@ class AsConnection extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            redirect: false,
-            asn: 0
-        };
         this.network = {};
         this.appRef = createRef();
         this.redirect = this.redirect.bind(this);
@@ -83,8 +78,7 @@ class AsConnection extends Component {
         if (params.nodes.length === 0) {
             return;
         }
-        console.log(params);
-        this.setState({ redirect: true, asn: params.nodes });
+        this.props.history.push("/asgraph/" + params.nodes);
     }
 
     setValueForEveryNode(network, nodes) {
@@ -96,6 +90,8 @@ class AsConnection extends Component {
     }
 
     calcStats(nodes) {
+
+        let start = Date.now();
 
         var allCountries = nodes.map(node => node.title);
         
@@ -113,6 +109,7 @@ class AsConnection extends Component {
         stats.maxNeighbours = maxNeighbours;
 
         this.props.getStats(stats);
+        console.log("Calc completed for:" + (start - Date.now()))
     }
 
     componentDidMount() {
@@ -128,20 +125,9 @@ class AsConnection extends Component {
         this.network.redraw();
         this.network.on("doubleClick", this.redirect);
         this.calcStats(nodes);
-        this.setState({ redirect: false });
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        // only update chart if the data has changed
-        if (prevState.asn !== this.state.asn) {
-            this.setState({ redirect: false });
-        }
     }
 
     render() {
-        if (this.state.redirect === true) {
-            return <Redirect push to={"/asgraph/" + this.state.asn} />
-        }
         return (
             <div style={wrapperStyles} ref={this.appRef} />
         );

@@ -61,4 +61,34 @@ public class AsConnection implements Serializable {
 		return power;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (from ^ (from >>> 32));
+		result = prime * result + (int) (power ^ (power >>> 32));
+		result = prime * result + (int) (to ^ (to >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AsConnection))
+			return false;
+		AsConnection other = (AsConnection) obj;
+		if (from != other.from)
+			return false;
+		if (power != other.power)
+			return false;
+		if (to != other.to)
+			return false;
+		return true;
+	}
+	
+	
+
 }

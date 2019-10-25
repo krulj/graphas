@@ -1,16 +1,20 @@
 import React from "react";
 import "./../../../App.css";
 import PieChart from "./../../charts/PieChart";
+import Loading from "./../../helper/Loading";
 
 const AsStats = props => {
+  if (props.isLoading === true) {
+    return <Loading />;
+  }
   return (
     <div>
-      <h3>AS{props.asnumber}</h3>
       <h4>{props.asProperties.name}</h4>
       <Child description={props.asProperties.description} />
       <PieChart
         labels={extractArray(props.topConnect.maxNeighbours, 0)}
         series={extractArray(props.topConnect.maxNeighbours, 1)}
+        title={"Top connected countries"}
       ></PieChart>
       <p>Autonomus system registrated in {props.countryName}</p>
     </div>

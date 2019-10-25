@@ -60,4 +60,30 @@ public class AsProperties implements Serializable {
 		return description;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((asinfo == null) ? 0 : asinfo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AsProperties))
+			return false;
+		AsProperties other = (AsProperties) obj;
+		if (asinfo == null) {
+			if (other.asinfo != null)
+				return false;
+		} else if (!asinfo.equals(other.asinfo))
+			return false;
+		return true;
+	}
+
+	
 }

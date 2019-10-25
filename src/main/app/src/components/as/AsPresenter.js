@@ -17,6 +17,7 @@ export default function AsPresenter(props) {
                 topConnect={props.stats}
                 countryName={props.countryName}
                 asProperties={props.asProperties}
+                isLoading={props.isLoading}
               />
             </div>
           )}

@@ -1,11 +1,13 @@
 package graphas.service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ import graphas.util.GraphUtils;
 
 @Service
 public class GraphAsServiceImpl implements GraphAsService {
+	private static final Logger logger = Logger.getLogger(GraphAsServiceImpl.class);
 
 	@Autowired
 	private AsInfoRepository asInfoRepository;
@@ -156,20 +159,27 @@ public class GraphAsServiceImpl implements GraphAsService {
 
 	@Override
 	public Graph getGraphConnections(Long id) {
+		logger.info("Get connections for AS" + id + " " + LocalTime.now().toString());
 		List<AsConnection> asConnections = getConnections(id);
+		logger.info("Connections collected for AS" + id + " " + LocalTime.now().toString());
 
 		List<Node> nodes = getNodes(asConnections);
 		List<Edge> edges = getEdges(asConnections);
+
+		logger.info("Parsing connections ended for: " + id + " " + LocalTime.now().toString());
 
 		return new Graph(nodes, edges);
 	}
 
 	@Override
 	public Graph getCountryGraphConnections(String country) {
+		logger.info("Get connections for: " + country + LocalTime.now().toString());
 		List<AsConnection> asConnections = getConnectionsbyCountry(country);
+		logger.info("Connections collected for: " + country + LocalTime.now().toString());
 
 		List<Node> nodes = getNodes(asConnections);
 		List<Edge> edges = getEdges(asConnections);
+		logger.info("Parsing connections ended for: " + country + LocalTime.now().toString());
 
 		return new Graph(nodes, edges);
 	}

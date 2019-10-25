@@ -3,6 +3,7 @@ import "../../App.css";
 import AppNavbar from "../../AppNavbar";
 import Loading from "./../../components/helper/Loading";
 import CountryPresenter from "../../components/country/CountryPresenter";
+import axios from "axios";
 
 class GraphCountry extends Component {
   constructor(props) {
@@ -28,19 +29,20 @@ class GraphCountry extends Component {
     var code = pathname.substr(6);
     this.setState({ isLoading: true, countryCode: code });
 
-    fetch("/graphas/api/country-connections-graph/" + code)
-      .then(response => response.json())
-      .then(data => this.setState({ graph: data, isLoading: false }));
+    axios
+      .get("/graphas/api/country-connections-graph/" + code)
+      .then(response => {
+        console.log(response);
+        this.setState({ graph: response.data, isLoading: false });
+      });
 
-    fetch("/graphas/api/countryStats/" + code)
-      .then(response => response.json())
-      .then(data =>
-        this.setState({
-          countryName: data.country,
-          asNums: data.asNums,
-          isLoadingStats: false
-        })
-      );
+    axios.get("/graphas/api/countryStats/" + code).then(response =>
+      this.setState({
+        countryName: response.data.country,
+        asNums: response.data.asNums,
+        isLoadingStats: false
+      })
+    );
   }
 
   toggleHidden() {

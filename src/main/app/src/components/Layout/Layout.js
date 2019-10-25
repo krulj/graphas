@@ -5,7 +5,8 @@ export default function Layout(props) {
   return (
     <React.Fragment>
       <AppNavbar />
-      <main>{props.children}</main>
+      <main className="App-main-window">{props.children}</main>
+      <div></div>
     </React.Fragment>
   );
 }
